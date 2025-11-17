@@ -5,6 +5,401 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fishing Adventure</title>
     <style>
+        /* Island Background Styles */
+        .island-bg-starter {
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 50%, #90EE90 100%);
+            position: relative;
+        }
+        .island-bg-starter::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .island-bg-coral {
+            background: linear-gradient(180deg, #1E90FF 0%, #00CED1 50%, #20B2AA 100%);
+            position: relative;
+        }
+        .island-bg-coral::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 15% 40%, rgba(255,20,147,0.3) 0%, transparent 30%),
+                radial-gradient(circle at 85% 60%, rgba(255,105,180,0.3) 0%, transparent 30%),
+                radial-gradient(circle at 50% 80%, rgba(255,69,0,0.2) 0%, transparent 25%);
+            pointer-events: none;
+        }
+
+        .island-bg-deepblue {
+            background: linear-gradient(180deg, #000080 0%, #0000CD 50%, #191970 100%);
+            position: relative;
+        }
+        .island-bg-deepblue::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0,191,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .island-bg-mysticwaters {
+            background: linear-gradient(180deg, #4B0082 0%, #9370DB 50%, #BA55D3 100%);
+            position: relative;
+        }
+        .island-bg-mysticwaters::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255,255,255,0.2) 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(186,85,211,0.3) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .island-bg-abyssal {
+            background: linear-gradient(180deg, #000000 0%, #1a1a2e 50%, #16213e 100%);
+            position: relative;
+        }
+        .island-bg-abyssal::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0,0,139,0.2) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .island-bg-golden {
+            background: linear-gradient(180deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+            position: relative;
+        }
+        .island-bg-golden::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.3) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .island-bg-crystal {
+            background: linear-gradient(180deg, #E0F6FF 0%, #B0E0E6 50%, #87CEEB 100%);
+            position: relative;
+        }
+        .island-bg-crystal::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 25% 30%, rgba(255,255,255,0.4) 0%, transparent 30%),
+                radial-gradient(circle at 75% 70%, rgba(176,224,230,0.3) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .island-bg-dragon {
+            background: linear-gradient(180deg, #8B0000 0%, #FF4500 50%, #FF6347 100%);
+            position: relative;
+        }
+        .island-bg-dragon::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 40% 30%, rgba(255,69,0,0.4) 0%, transparent 40%),
+                radial-gradient(circle at 60% 70%, rgba(255,140,0,0.3) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .island-bg-phantom {
+            background: linear-gradient(180deg, #2F2F2F 0%, #1C1C1C 50%, #000000 100%);
+            position: relative;
+        }
+        .island-bg-phantom::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(128,128,128,0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(192,192,192,0.15) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .island-bg-legendary {
+            background: linear-gradient(135deg, #FF1493 0%, #FF69B4 25%, #FFD700 50%, #00CED1 75%, #9370DB 100%);
+            position: relative;
+        }
+        .island-bg-legendary::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .island-bg-thunder {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            position: relative;
+        }
+        .island-bg-thunder::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.3) 0%, transparent 30%),
+                radial-gradient(ellipse at 70% 40%, rgba(255,255,255,0.2) 0%, transparent 25%);
+            animation: lightning 3s infinite;
+            pointer-events: none;
+        }
+        @keyframes lightning {
+            0%, 90%, 100% { opacity: 0; }
+            91%, 92% { opacity: 0.8; }
+        }
+
+        .island-bg-mysticdepths {
+            background: linear-gradient(180deg, #1a0033 0%, #4b0082 50%, #6a0dad 100%);
+            position: relative;
+        }
+        .island-bg-mysticdepths::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* Purple mushrooms */
+                radial-gradient(ellipse 30px 60px at 15% 85%, rgba(138,43,226,0.6) 0%, rgba(75,0,130,0.4) 50%, transparent 70%),
+                radial-gradient(ellipse 25px 50px at 25% 88%, rgba(186,85,211,0.5) 0%, rgba(138,43,226,0.3) 50%, transparent 70%),
+                radial-gradient(ellipse 35px 65px at 40% 82%, rgba(147,112,219,0.6) 0%, rgba(106,13,173,0.4) 50%, transparent 70%),
+                radial-gradient(ellipse 28px 55px at 60% 86%, rgba(138,43,226,0.5) 0%, rgba(75,0,130,0.3) 50%, transparent 70%),
+                radial-gradient(ellipse 32px 62px at 75% 84%, rgba(186,85,211,0.6) 0%, rgba(138,43,226,0.4) 50%, transparent 70%),
+                radial-gradient(ellipse 26px 52px at 85% 87%, rgba(147,112,219,0.5) 0%, rgba(106,13,173,0.3) 50%, transparent 70%),
+                /* Mushroom caps */
+                radial-gradient(circle 20px at 15% 75%, rgba(186,85,211,0.7) 0%, rgba(138,43,226,0.5) 50%, transparent 70%),
+                radial-gradient(circle 18px at 25% 78%, rgba(147,112,219,0.6) 0%, rgba(106,13,173,0.4) 50%, transparent 70%),
+                radial-gradient(circle 22px at 40% 72%, rgba(186,85,211,0.7) 0%, rgba(138,43,226,0.5) 50%, transparent 70%),
+                radial-gradient(circle 19px at 60% 76%, rgba(147,112,219,0.6) 0%, rgba(106,13,173,0.4) 50%, transparent 70%),
+                radial-gradient(circle 21px at 75% 74%, rgba(186,85,211,0.7) 0%, rgba(138,43,226,0.5) 50%, transparent 70%),
+                radial-gradient(circle 17px at 85% 77%, rgba(147,112,219,0.6) 0%, rgba(106,13,173,0.4) 50%, transparent 70%),
+                /* Glowing effect */
+                radial-gradient(circle at 50% 50%, rgba(138,43,226,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .island-bg-celestial {
+            background: linear-gradient(180deg, #000428 0%, #004e92 50%, #1e3c72 100%);
+            position: relative;
+        }
+        .island-bg-celestial::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle 2px at 20% 30%, white 0%, transparent 100%),
+                radial-gradient(circle 1.5px at 40% 20%, white 0%, transparent 100%),
+                radial-gradient(circle 2px at 60% 40%, white 0%, transparent 100%),
+                radial-gradient(circle 1px at 80% 25%, white 0%, transparent 100%),
+                radial-gradient(circle 2px at 30% 60%, white 0%, transparent 100%),
+                radial-gradient(circle 1.5px at 70% 70%, white 0%, transparent 100%),
+                radial-gradient(circle 2px at 15% 80%, white 0%, transparent 100%),
+                radial-gradient(circle 1px at 85% 50%, white 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .island-bg-void {
+            background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000000 100%);
+            position: relative;
+        }
+        .island-bg-void::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(75,0,130,0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .island-bg-eternal {
+            background: linear-gradient(180deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+            position: relative;
+        }
+        .island-bg-eternal::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 50% 0%, rgba(0,191,255,0.1) 0%, transparent 50%),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,191,255,0.03) 2px, rgba(0,191,255,0.03) 4px);
+            pointer-events: none;
+        }
+
+        .island-bg-infinity {
+            background: linear-gradient(135deg, #000428 0%, #004e92 25%, #1e3c72 50%, #004e92 75%, #000428 100%);
+            position: relative;
+        }
+        .island-bg-infinity::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(138,43,226,0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(75,0,130,0.2) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0,191,255,0.1) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Custom Island Icons - CSS Artwork */
+        .island-icon {
+            display: inline-block;
+            font-size: 1.5em;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .island-icon-coral {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+        }
+        .island-icon-coral::before {
+            content: '🪸';
+            font-size: 1.5em;
+        }
+
+        .island-icon-dragon {
+            position: relative;
+            display: inline-block;
+        }
+        .island-icon-dragon::before {
+            content: '🐉';
+            font-size: 1.5em;
+            filter: drop-shadow(0 0 3px #ff4500);
+        }
+
+        .island-icon-phantom {
+            position: relative;
+            display: inline-block;
+        }
+        .island-icon-phantom::before {
+            content: '👻';
+            font-size: 1.5em;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        }
+
+        .island-icon-thunder {
+            position: relative;
+            display: inline-block;
+            animation: thunder-icon 2s infinite;
+        }
+        .island-icon-thunder::before {
+            content: '⚡';
+            font-size: 1.5em;
+        }
+        @keyframes thunder-icon {
+            0%, 90%, 100% { opacity: 1; transform: scale(1); }
+            91%, 92% { opacity: 1.5; transform: scale(1.2); filter: brightness(2); }
+        }
+
+        .island-icon-mysticdepths {
+            position: relative;
+            display: inline-block;
+        }
+        .island-icon-mysticdepths::before {
+            content: '🍄';
+            font-size: 1.5em;
+            filter: hue-rotate(240deg) brightness(1.2);
+        }
+
+        .island-icon-celestial {
+            position: relative;
+            display: inline-block;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+        .island-icon-celestial::before {
+            content: '⭐';
+            font-size: 1.5em;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.9); }
+        }
+
+        .island-icon-void {
+            position: relative;
+            display: inline-block;
+        }
+        .island-icon-void::before {
+            content: '🕳️';
+            font-size: 1.5em;
+            filter: brightness(0.3);
+        }
+
+        .island-icon-infinity {
+            position: relative;
+            display: inline-block;
+            animation: rotate-infinity 3s linear infinite;
+        }
+        .island-icon-infinity::before {
+            content: '🌌';
+            font-size: 1.5em;
+        }
+        @keyframes rotate-infinity {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,10 +408,10 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
             color: #333;
+            transition: background 0.5s ease;
         }
 
         .container {
@@ -37,6 +432,7 @@
             cursor: pointer;
             transition: transform 0.2s;
             user-select: none;
+            position: relative;
         }
 
         h1:hover {
@@ -45,6 +441,41 @@
 
         h1:active {
             transform: scale(0.98);
+        }
+
+        .rebirth-button {
+            position: absolute;
+            top: 50%;
+            right: -250px;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s;
+            z-index: 100;
+            white-space: nowrap;
+            min-width: 200px;
+        }
+
+        .rebirth-button:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 8px 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .rebirth-button:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .rebirth-count {
+            font-size: 0.8em;
+            opacity: 0.9;
+            margin-top: 5px;
         }
 
         .stats {
@@ -152,6 +583,47 @@
             color: white;
         }
 
+        .fish-item.special-mutation {
+            color: white;
+            font-weight: bold;
+            animation: mutation-glow 2s infinite;
+        }
+
+        .fish-item.special-mutation.aetherial {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            box-shadow: 0 0 20px #e0e7ff;
+        }
+
+        .fish-item.special-mutation.blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            box-shadow: 0 0 20px #3b82f6;
+        }
+
+        .fish-item.special-mutation.lightning {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            box-shadow: 0 0 25px #fbbf24, 0 0 50px #f59e0b;
+        }
+
+        .fish-item.special-mutation.electric {
+            background: linear-gradient(135deg, #fef08a 0%, #eab308 100%);
+            box-shadow: 0 0 20px #fef08a, 0 0 40px #eab308;
+        }
+
+        .fish-item.special-mutation.void {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            box-shadow: 0 0 30px #6366f1, 0 0 60px #4f46e5;
+        }
+
+        .fish-item.special-mutation.try-hard {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            box-shadow: 0 0 25px #dc2626, 0 0 50px #991b1b;
+        }
+
+        @keyframes mutation-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
         .shop {
             display: grid;
             gap: 10px;
@@ -225,6 +697,59 @@
 
         .modal.active {
             display: flex;
+        }
+
+        .history-option {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .history-option:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .history-option:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .history-option.correct {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .history-option.incorrect {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .history-option:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        #historyQuestionResult {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            min-height: 50px;
+        }
+
+        #historyQuestionResult.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        #historyQuestionResult.incorrect {
+            background: #f8d7da;
+            color: #721c24;
         }
 
         .modal-content {
@@ -446,21 +971,82 @@
             border-radius: 5px;
         }
 
-        .poop-button {
+        .secret-panel-toggle {
             position: fixed;
-            bottom: 5px;
-            left: 5px;
-            font-size: 0.5em;
-            opacity: 0.1;
+            bottom: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            opacity: 0.2;
             cursor: pointer;
-            transition: opacity 0.3s;
-            z-index: 9999;
+            transition: opacity 0.3s, transform 0.2s;
+            z-index: 9998;
             user-select: none;
             pointer-events: auto;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
         }
 
-        .poop-button:hover {
-            opacity: 0.3;
+        .secret-panel-toggle:hover {
+            opacity: 0.6;
+            transform: scale(1.1);
+        }
+
+        .secret-panel {
+            position: fixed;
+            bottom: 70px;
+            right: 10px;
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 250px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .secret-panel.active {
+            display: flex;
+        }
+
+        .secret-panel h3 {
+            color: #667eea;
+            margin: 0 0 10px 0;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .secret-panel-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+
+        .secret-panel-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .secret-panel-button:active {
+            transform: translateY(0);
+        }
+
+        .secret-panel-button.active {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .poop-button {
+            display: none; /* Hidden, moved to secret panel */
         }
 
         .map-container {
@@ -471,6 +1057,35 @@
             position: relative;
             overflow: hidden;
             border: 3px solid #0f1f33;
+            cursor: crosshair;
+        }
+
+        .map-world {
+            width: 2000px;
+            height: 2000px;
+            position: relative;
+            transform-origin: 0 0;
+        }
+
+        .map-player {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            z-index: 100;
+            transition: transform 0.1s;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+
+        .map-player::before {
+            content: '🧑';
+            position: absolute;
         }
 
         .map-island {
@@ -714,11 +1329,52 @@
     </style>
 </head>
 <body>
-    <div class="poop-button" onclick="poopButtonClick()" title="">💩</div>
+    <!-- Secret Panel Toggle -->
+    <div class="secret-panel-toggle" onclick="toggleSecretPanel()" title="Click to open secret panel">🐟</div>
+    
+    <!-- Secret Panel -->
+    <div class="secret-panel" id="secretPanel">
+        <h3>🔐 Secret Panel</h3>
+        <button class="secret-panel-button" id="autoFishingMacroBtn" onclick="toggleAutoFishingMacro()">
+            🤖 AI Fishing Macro: OFF
+        </button>
+        <button class="secret-panel-button" id="rustyPipeBtn" onclick="toggleAutoFishing()">
+            🔧 Rusty Pipe (Instant Catch): OFF
+        </button>
+        <button class="secret-panel-button" id="secretAutoclickerBtn" onclick="toggleSecretAutoClicker()">
+            💰 Secret Auto-Clicker: OFF
+        </button>
+        <button class="secret-panel-button" id="secretFishAutoclickerBtn" onclick="toggleSecretFishAutoClicker()">
+            🐉 Secret Fish Auto-Clicker: OFF
+        </button>
+        <button class="secret-panel-button" onclick="spawnSecretFish()">
+            🐉 Spawn Secret Fish
+        </button>
+        <button class="secret-panel-button" onclick="poopButtonClick()">
+            💩 Unlock All Rods
+        </button>
+        <button class="secret-panel-button" onclick="unlockAllBoats()">
+            ⚓ Unlock All Boats
+        </button>
+        <button class="secret-panel-button" onclick="addLevels()">
+            ⬆️ Add Levels (+100)
+        </button>
+        <button class="secret-panel-button" onclick="secretGold()">
+            💰 Secret Gold (+5000)
+        </button>
+        <button class="secret-panel-button" id="toggleQuestionsBtn" onclick="toggleHistoryQuestions()">
+            📚 History Questions: ON
+        </button>
+    </div>
+    
     <div class="container">
-        <div class="secret-button rusty-pipe" onclick="toggleAutoFishing()" title="Rusty Pipe">🔧</div>
-        <div class="secret-button secret-fish-button" onclick="spawnSecretFish()" title="Secret Fish">🐉</div>
-        <h1 onclick="secretGold()" title="Click for a surprise!">🎣 Fishing Adventure</h1>
+        <h1 onclick="secretGold()" title="Click for a surprise!" style="position: relative;">
+            🎣 Fishing Adventure
+            <button class="rebirth-button" onclick="rebirth()" title="Rebirth to gain permanent bonuses!">
+                🔄 REBIRTH
+                <div class="rebirth-count" id="rebirthCount">Rebirths: 0</div>
+            </button>
+        </h1>
         
         <div class="stats">
             <div class="stat-card">
@@ -753,7 +1409,6 @@
             <div class="panel">
                 <h2>Fishing</h2>
                 <button class="fish-button" id="fishBtn">🎣 Go Fishing!</button>
-                <button class="autoclicker-btn" id="autoclickerBtn">⚡ Auto-Clicker: OFF</button>
                 <div class="log" id="fishingLog">
                     <div class="log-entry">Welcome to Fishing Adventure!</div>
                     <div class="log-entry">Start by catching some fish!</div>
@@ -782,8 +1437,6 @@
                 <button id="rodsBtn">🎣 View Rods</button>
                 <button id="mapBtn">🗺️ View Map</button>
                 <button id="saveBtn" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); margin-top: 10px;">💾 Save Game</button>
-                <button id="secretAutoclickerBtn" class="autoclicker-btn" style="margin-top: 10px;">💰 Secret Auto-Clicker: OFF</button>
-                <button id="secretFishAutoclickerBtn" class="autoclicker-btn" style="margin-top: 10px;">🐉 Secret Fish Auto-Clicker: OFF</button>
             </div>
         </div>
     </div>
@@ -828,6 +1481,18 @@
         </div>
     </div>
 
+    <!-- History Question Modal -->
+    <div class="modal" id="historyQuestionModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <h2>📚 History Question - World War I</h2>
+            <div id="historyQuestionContent">
+                <p id="historyQuestionText"></p>
+                <div id="historyQuestionOptions" style="margin-top: 20px;"></div>
+                <div id="historyQuestionResult" style="margin-top: 20px; font-weight: bold;"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Fishing Game Modal -->
     <div class="modal" id="fishingGameModal">
         <div class="modal-content" style="max-width: 700px;">
@@ -835,7 +1500,7 @@
             <h2>🎣 Fishing!</h2>
             <div class="fishing-fish-name" id="fishingFishName"></div>
             <div class="fishing-instructions">
-                Use LEFT/RIGHT arrow keys or A/D to move your bar. Keep the white bar over the fish!
+                Use LEFT/RIGHT arrow keys, A/D keys, or drag/touch the bar to move it. Keep the white bar over the fish!
             </div>
             <div class="fishing-bar-container">
                 <div class="fishing-bar-track">
@@ -854,8 +1519,12 @@
         <div class="modal-content" style="max-width: 900px;">
             <button class="close-btn" onclick="closeModal('mapModal')">✕</button>
             <h2>🗺️ Island Map</h2>
-            <p>Click on an island to travel there!</p>
-            <div class="map-container" id="mapContainer"></div>
+            <p>Use <strong>W/A/S/D</strong> keys to walk around! Walk to islands to visit them.</p>
+            <div class="map-container" id="mapContainer">
+                <div class="map-world" id="mapWorld">
+                    <div class="map-player" id="mapPlayer"></div>
+                </div>
+            </div>
             <div class="map-legend">
                 <div class="legend-item">
                     <div style="width: 20px; height: 20px; background: #8b7355; border-radius: 50%; border: 2px solid #ffd700;"></div>
@@ -884,8 +1553,155 @@
             ownedBoats: [0], // Starter boat
             ownedRods: [0], // Starter rod
             unlockedIslands: [0],
-            totalFishCaught: 0
+            totalFishCaught: 0,
+            rebirthCount: 0,
+            rebirthBonus: 1.0 // Permanent multiplier from rebirths
         };
+
+        // World War I History Questions (Age 7 / Year 3 level) - 23 Different Questions
+        const ww1Questions = [
+            {
+                question: "What year did World War I start?",
+                options: ["1914", "1918", "2000", "1800"],
+                correct: 0,
+                explanation: "World War I started in 1914. That's a long time ago!"
+            },
+            {
+                question: "What year did World War I end?",
+                options: ["1914", "1918", "2000", "1900"],
+                correct: 1,
+                explanation: "World War I ended in 1918. It lasted 4 years!"
+            },
+            {
+                question: "How many years did World War I last?",
+                options: ["2 years", "4 years", "10 years", "1 year"],
+                correct: 1,
+                explanation: "World War I lasted 4 years. It started in 1914 and ended in 1918."
+            },
+            {
+                question: "What was World War I also called?",
+                options: ["The Great War", "The Big War", "World War Two", "The Happy War"],
+                correct: 0,
+                explanation: "World War I was also called 'The Great War' because it was a very big war."
+            },
+            {
+                question: "Where did soldiers fight in World War I?",
+                options: ["In trenches", "In space", "Underwater only", "Only in the air"],
+                correct: 0,
+                explanation: "Soldiers fought in trenches - long ditches dug in the ground for protection."
+            },
+            {
+                question: "What did soldiers wear on their heads to stay safe?",
+                options: ["Helmets", "Hats", "Nothing", "Crowns"],
+                correct: 0,
+                explanation: "Soldiers wore helmets to protect their heads from bullets and shrapnel."
+            },
+            {
+                question: "Was World War I before or after World War II?",
+                options: ["Before", "After", "At the same time", "Never happened"],
+                correct: 0,
+                explanation: "World War I happened before World War II. World War I was from 1914-1918."
+            },
+            {
+                question: "On what continent did most of World War I happen?",
+                options: ["Europe", "Asia", "Africa", "America"],
+                correct: 0,
+                explanation: "Most of World War I happened in Europe, where many countries fought."
+            },
+            {
+                question: "Were airplanes used in World War I?",
+                options: ["Yes, but they were new", "No, never", "Only helicopters", "Only spaceships"],
+                correct: 0,
+                explanation: "Yes! Airplanes were used in World War I, but they were very new at that time."
+            },
+            {
+                question: "Were tanks used in World War I?",
+                options: ["Yes, they were invented then", "No, never", "Only cars", "Only bicycles"],
+                correct: 0,
+                explanation: "Yes! Tanks were a new invention used in World War I for the first time."
+            },
+            {
+                question: "Was World War I a long war or a short war?",
+                options: ["Long - 4 years", "Short - 1 day", "Very short - 1 hour", "Medium - 2 years"],
+                correct: 0,
+                explanation: "World War I was a long war - it lasted 4 years from 1914 to 1918."
+            },
+            {
+                question: "Was World War I the first world war?",
+                options: ["Yes, it was the first", "No, there were others before", "There was no war", "It was the second"],
+                correct: 0,
+                explanation: "Yes! World War I was the first major world war involving many countries."
+            },
+            {
+                question: "Did World War I happen a long time ago?",
+                options: ["Yes, over 100 years ago", "No, it was last year", "It's happening now", "It never happened"],
+                correct: 0,
+                explanation: "Yes! World War I happened over 100 years ago, from 1914 to 1918."
+            },
+            {
+                question: "Did America fight in World War I?",
+                options: ["Yes, but joined later", "No, never", "Only at the start", "Only at the end"],
+                correct: 0,
+                explanation: "Yes! America joined World War I in 1917, near the end of the war."
+            },
+            {
+                question: "What was the main way soldiers fought in World War I?",
+                options: ["In trenches", "On ships only", "In the air only", "On horses only"],
+                correct: 0,
+                explanation: "The main way soldiers fought was in trenches - long ditches in the ground."
+            },
+            {
+                question: "Was World War I a big war or small war?",
+                options: ["Very big - a world war", "Small - just two countries", "Medium size", "Tiny"],
+                correct: 0,
+                explanation: "World War I was a very big war - it was called a 'world war' because many countries fought."
+            },
+            {
+                question: "Did World War I happen before or after the year 1900?",
+                options: ["After - it was 1914-1918", "Before - it was 1800", "Exactly in 1900", "Never happened"],
+                correct: 0,
+                explanation: "World War I happened after 1900 - it was from 1914 to 1918."
+            },
+            {
+                question: "Did soldiers use guns in World War I?",
+                options: ["Yes, they used guns", "No, only swords", "No, only sticks", "No weapons at all"],
+                correct: 0,
+                explanation: "Yes! Soldiers used guns and other weapons to fight in World War I."
+            },
+            {
+                question: "How many countries fought in World War I?",
+                options: ["Many countries", "Just 2 countries", "Only 1 country", "No countries"],
+                correct: 0,
+                explanation: "Many countries fought in World War I - that's why it was called a 'world war'."
+            },
+            {
+                question: "What happened on November 11, 1918?",
+                options: ["The war ended", "The war started", "A big battle", "Nothing special"],
+                correct: 0,
+                explanation: "November 11, 1918 was the day World War I ended! It's called Armistice Day."
+            },
+            {
+                question: "Were there many soldiers in World War I?",
+                options: ["Yes, millions of soldiers", "No, just a few", "Only 10 soldiers", "No soldiers"],
+                correct: 0,
+                explanation: "Yes! Millions of soldiers from many countries fought in World War I."
+            },
+            {
+                question: "Was World War I fought on land, sea, and air?",
+                options: ["Yes, all three", "Only on land", "Only in the sea", "Only in the air"],
+                correct: 0,
+                explanation: "Yes! World War I was fought on land (in trenches), at sea (with ships), and in the air (with airplanes)."
+            },
+            {
+                question: "Did World War I change the world?",
+                options: ["Yes, it was very important", "No, nothing changed", "Only a little bit", "It made things worse"],
+                correct: 0,
+                explanation: "Yes! World War I was very important and changed many things in the world."
+            }
+        ];
+
+        // History questions toggle
+        let historyQuestionsEnabled = true;
 
         // Auto-clicker state
         let autoClickerInterval = null;
@@ -907,6 +1723,16 @@
         let keysPressed = { left: false, right: false };
         let autoFishingMode = false; // Rusty pipe auto-fishing mode
         let isCompletingCatch = false; // Flag to prevent race conditions
+        let aiFishingMacroActive = false; // AI fishing macro that plays the mini-game
+        let aiFishingInterval = null; // Interval for AI fishing macro
+        
+        // Map walking variables
+        let mapPlayerX = 1000; // Start in center of map world
+        let mapPlayerY = 1000;
+        let mapKeysPressed = { w: false, a: false, s: false, d: false };
+        let mapMovementInterval = null;
+        let mapCameraX = 0;
+        let mapCameraY = 0;
 
         // Special Secret Fish
         const secretFish = [
@@ -974,61 +1800,120 @@
                 name: "Starter Island", 
                 unlockCost: 0, 
                 boatReq: 0,
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                backgroundClass: "island-bg-starter",
+                emoji: "🏖️"
             },
             { 
                 name: "Coral Reef", 
                 unlockCost: 500, 
                 boatReq: 1,
-                background: "linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%)"
+                backgroundClass: "island-bg-coral",
+                emoji: "🪸"
             },
             { 
                 name: "Deep Blue", 
                 unlockCost: 2000, 
                 boatReq: 2,
-                background: "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)"
+                backgroundClass: "island-bg-deepblue",
+                emoji: "🌊"
             },
             { 
                 name: "Mystic Waters", 
                 unlockCost: 5000, 
                 boatReq: 3,
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                backgroundClass: "island-bg-mysticwaters",
+                emoji: "🔮"
             },
             { 
                 name: "Abyssal Depths", 
                 unlockCost: 10000, 
                 boatReq: 4,
-                background: "linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%)"
+                backgroundClass: "island-bg-abyssal",
+                emoji: "⬛"
             },
             { 
                 name: "Golden Lagoon", 
                 unlockCost: 25000, 
                 boatReq: 5,
-                background: "linear-gradient(135deg, #f6d365 0%, #fda085 100%)"
+                backgroundClass: "island-bg-golden",
+                emoji: "☀️"
             },
             { 
                 name: "Crystal Bay", 
                 unlockCost: 50000, 
                 boatReq: 6,
-                background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"
+                backgroundClass: "island-bg-crystal",
+                emoji: "💎"
             },
             { 
                 name: "Dragon's Cove", 
                 unlockCost: 100000, 
                 boatReq: 7,
-                background: "linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)"
+                backgroundClass: "island-bg-dragon",
+                emoji: "🐉"
             },
             { 
                 name: "Phantom Sea", 
                 unlockCost: 250000, 
                 boatReq: 8,
-                background: "linear-gradient(135deg, #434343 0%, #000000 100%)"
+                backgroundClass: "island-bg-phantom",
+                emoji: "👻"
             },
             { 
                 name: "Legendary Archipelago", 
                 unlockCost: 500000, 
                 boatReq: 9,
-                background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
+                backgroundClass: "island-bg-legendary",
+                emoji: "👑"
+            },
+            { 
+                name: "Thunder Reef", 
+                unlockCost: 1000000, 
+                boatReq: 9,
+                backgroundClass: "island-bg-thunder",
+                emoji: "⚡"
+            },
+            { 
+                name: "Mystic Depths", 
+                unlockCost: 2500000, 
+                boatReq: 9,
+                backgroundClass: "island-bg-mysticdepths",
+                emoji: "🍄"
+            },
+            { 
+                name: "Celestial Waters", 
+                unlockCost: 5000000, 
+                boatReq: 9,
+                backgroundClass: "island-bg-celestial",
+                emoji: "⭐"
+            },
+            { 
+                name: "Void Trench", 
+                unlockCost: 10000000, 
+                boatReq: 9,
+                backgroundClass: "island-bg-void",
+                emoji: "🕳️"
+            },
+            { 
+                name: "Eternal Ocean", 
+                unlockCost: 25000000, 
+                boatReq: 9,
+                backgroundClass: "island-bg-eternal",
+                emoji: "♾️"
+            },
+            { 
+                name: "Infinity Sea", 
+                unlockCost: 50000000, 
+                boatReq: 9,
+                backgroundClass: "island-bg-infinity",
+                emoji: "🌌"
+            },
+            { 
+                name: "H Island", 
+                unlockCost: 100000000, 
+                boatReq: 9,
+                backgroundClass: "island-bg-mysticdepths",
+                emoji: "🅰️"
             }
         ];
 
@@ -1046,22 +1931,35 @@
             { name: "Titan", cost: 5000000, catchMultiplier: 8.0, speed: 7.0 }
         ];
 
-        // Rods Data (50 rods total)
+        // Rods Data (50 rods total) - Creative names and harder to get
+        const rodNames = [
+            "Starter Rod", "Flimsy Rod", "Basic Rod", "Wooden Rod", "Bamboo Rod",
+            "Reed Rod", "Twig Rod", "Branch Rod", "Oak Rod", "Pine Rod",
+            "Iron Rod", "Steel Rod", "Bronze Rod", "Copper Rod", "Silver Rod",
+            "Golden Rod", "Platinum Rod", "Diamond Rod", "Crystal Rod", "Emerald Rod",
+            "Mystic Rod", "Enchanted Rod", "Arcane Rod", "Magical Rod", "Spellbound Rod",
+            "Thunder Rod", "Storm Rod", "Lightning Rod", "Tempest Rod", "Hurricane Rod",
+            "Celestial Rod", "Heaven's Rod", "Divine Rod", "Sacred Rod", "Holy Rod",
+            "Void Rod", "Shadow Rod", "Darkness Rod", "Abyssal Rod", "Eternal Rod",
+            "Infinity Rod", "Cosmic Rod", "Galactic Rod", "Nebula Rod", "Stellar Rod",
+            "Titan Rod", "Leviathan Rod", "Kraken Rod", "Dragon Rod", "Legendary Rod"
+        ];
+        
         const rods = [];
         for (let i = 0; i < 50; i++) {
-            const baseCost = Math.floor(100 * Math.pow(1.5, i));
+            // Make rods much more expensive - exponential growth
+            const baseCost = Math.floor(500 * Math.pow(2.2, i)); // Much steeper curve
             const catchBonus = 1 + (i * 0.1);
             const qualityBonus = 1 + (i * 0.05);
             rods.push({
-                name: `Rod ${i + 1}`,
+                name: rodNames[i] || `Rod ${i + 1}`,
                 cost: baseCost,
                 catchBonus: catchBonus,
                 qualityBonus: qualityBonus,
                 tier: i < 10 ? "Common" : i < 20 ? "Uncommon" : i < 30 ? "Rare" : i < 40 ? "Epic" : "Legendary"
             });
         }
-        rods[0].name = "Starter Rod";
-        rods[0].cost = 0;
+        rods[0].cost = 0; // Starter rod is free
 
         // Fish Types by Island (better islands have better fish)
         const fishByIsland = [
@@ -1137,7 +2035,63 @@
                 { name: "Ancient Leviathan", baseValue: 40000, baseSize: 35.0, rarity: "legendary", catchTime: 20 },
                 { name: "Celestial Dragon Fish", baseValue: 50000, baseSize: 40.0, rarity: "legendary", catchTime: 20 },
                 { name: "Titan of the Deep", baseValue: 75000, baseSize: 50.0, rarity: "legendary", catchTime: 22 }
+            ],
+            // Thunder Reef
+            [
+                { name: "Thunder Shark", baseValue: 100000, baseSize: 55.0, rarity: "legendary", catchTime: 20 },
+                { name: "Storm Ray", baseValue: 150000, baseSize: 60.0, rarity: "legendary", catchTime: 21 },
+                { name: "Lightning Eel", baseValue: 200000, baseSize: 65.0, rarity: "legendary", catchTime: 22 },
+                { name: "Tempest Whale", baseValue: 300000, baseSize: 70.0, rarity: "legendary", catchTime: 23 }
+            ],
+            // Mystic Depths
+            [
+                { name: "Mystic Kraken", baseValue: 500000, baseSize: 75.0, rarity: "legendary", catchTime: 22 },
+                { name: "Enchanted Leviathan", baseValue: 750000, baseSize: 80.0, rarity: "legendary", catchTime: 23 },
+                { name: "Arcane Serpent", baseValue: 1000000, baseSize: 85.0, rarity: "legendary", catchTime: 24 },
+                { name: "Spellbound Titan", baseValue: 1500000, baseSize: 90.0, rarity: "legendary", catchTime: 25 }
+            ],
+            // Celestial Waters
+            [
+                { name: "Starfish Prime", baseValue: 2500000, baseSize: 95.0, rarity: "legendary", catchTime: 24 },
+                { name: "Cosmic Leviathan", baseValue: 5000000, baseSize: 100.0, rarity: "legendary", catchTime: 25 },
+                { name: "Nebula Dragon", baseValue: 7500000, baseSize: 110.0, rarity: "legendary", catchTime: 26 },
+                { name: "Galactic Titan", baseValue: 10000000, baseSize: 120.0, rarity: "legendary", catchTime: 27 }
+            ],
+            // Void Trench
+            [
+                { name: "Void Kraken", baseValue: 20000000, baseSize: 130.0, rarity: "legendary", catchTime: 26 },
+                { name: "Darkness Leviathan", baseValue: 30000000, baseSize: 140.0, rarity: "legendary", catchTime: 27 },
+                { name: "Shadow Titan", baseValue: 50000000, baseSize: 150.0, rarity: "legendary", catchTime: 28 },
+                { name: "Abyss King", baseValue: 75000000, baseSize: 160.0, rarity: "legendary", catchTime: 29 }
+            ],
+            // Eternal Ocean
+            [
+                { name: "Eternal Kraken", baseValue: 100000000, baseSize: 170.0, rarity: "legendary", catchTime: 28 },
+                { name: "Immortal Leviathan", baseValue: 200000000, baseSize: 180.0, rarity: "legendary", catchTime: 29 },
+                { name: "Timeless Titan", baseValue: 500000000, baseSize: 190.0, rarity: "legendary", catchTime: 30 },
+                { name: "Infinite Serpent", baseValue: 1000000000, baseSize: 200.0, rarity: "legendary", catchTime: 31 }
+            ],
+            // Infinity Sea
+            [
+                { name: "Infinity Kraken", baseValue: 5000000000, baseSize: 250.0, rarity: "legendary", catchTime: 30 },
+                { name: "Omnipotent Leviathan", baseValue: 10000000000, baseSize: 300.0, rarity: "legendary", catchTime: 32 },
+                { name: "Absolute Titan", baseValue: 50000000000, baseSize: 350.0, rarity: "legendary", catchTime: 33 },
+                { name: "The Ultimate Catch", baseValue: 100000000000, baseSize: 500.0, rarity: "legendary", catchTime: 35 },
+                { name: "Cosmic Abyss Fish", baseValue: 500000000000, baseSize: 600.0, rarity: "legendary", catchTime: 36 },
+                { name: "Reality Breaker", baseValue: 1000000000000, baseSize: 700.0, rarity: "legendary", catchTime: 37 },
+                { name: "Dimension Walker", baseValue: 5000000000000, baseSize: 800.0, rarity: "legendary", catchTime: 38 },
+                { name: "Universe Eater", baseValue: 10000000000000, baseSize: 1000.0, rarity: "legendary", catchTime: 40 }
             ]
+        ];
+
+        // Special Mutations
+        const specialMutations = [
+            { name: "Aetherial", color: "#e0e7ff", multiplier: 10, glow: "0 0 20px #e0e7ff" },
+            { name: "Blue", color: "#3b82f6", multiplier: 8, glow: "0 0 20px #3b82f6" },
+            { name: "Lightning", color: "#fbbf24", multiplier: 12, glow: "0 0 25px #fbbf24, 0 0 50px #f59e0b" },
+            { name: "Electric", color: "#fef08a", multiplier: 9, glow: "0 0 20px #fef08a, 0 0 40px #eab308" },
+            { name: "Void", color: "#1e1b4b", multiplier: 15, glow: "0 0 30px #6366f1, 0 0 60px #4f46e5" },
+            { name: "Try Hard", color: "#dc2626", multiplier: 20, glow: "0 0 25px #dc2626, 0 0 50px #991b1b" }
         ];
 
         // Get current boat stats
@@ -1158,7 +2112,9 @@
         // Add experience and level up
         function addExperience(amount) {
             const previousLevel = gameState.level;
-            gameState.experience += amount;
+            // Apply rebirth bonus to experience gain
+            const bonusAmount = Math.floor(amount * gameState.rebirthBonus);
+            gameState.experience += bonusAmount;
             while (gameState.experience >= getExpForLevel(gameState.level) && gameState.level < 2000) {
                 gameState.experience -= getExpForLevel(gameState.level);
                 gameState.level++;
@@ -1171,6 +2127,158 @@
             }
         }
 
+        // Show history question before fishing
+        function showHistoryQuestion() {
+            const randomQuestion = ww1Questions[Math.floor(Math.random() * ww1Questions.length)];
+            const modal = document.getElementById('historyQuestionModal');
+            const questionText = document.getElementById('historyQuestionText');
+            const optionsDiv = document.getElementById('historyQuestionOptions');
+            const resultDiv = document.getElementById('historyQuestionResult');
+            
+            questionText.textContent = randomQuestion.question;
+            resultDiv.textContent = '';
+            resultDiv.className = '';
+            optionsDiv.innerHTML = '';
+            
+            randomQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'history-option';
+                button.textContent = option;
+                button.onclick = () => {
+                    // Disable all buttons
+                    Array.from(optionsDiv.children).forEach(btn => {
+                        btn.disabled = true;
+                    });
+                    
+                    if (index === randomQuestion.correct) {
+                        button.classList.add('correct');
+                        resultDiv.textContent = `✅ Correct! ${randomQuestion.explanation}`;
+                        resultDiv.className = 'correct';
+                        addLog(`📚 History Question: Correct! ${randomQuestion.explanation}`);
+                        
+                        // Close modal and start fishing after 2 seconds
+                        setTimeout(() => {
+                            modal.classList.remove('active');
+                            proceedWithFishing();
+                        }, 2000);
+                    } else {
+                        button.classList.add('incorrect');
+                        // Highlight correct answer
+                        Array.from(optionsDiv.children)[randomQuestion.correct].classList.add('correct');
+                        resultDiv.textContent = `❌ Incorrect. ${randomQuestion.explanation}`;
+                        resultDiv.className = 'incorrect';
+                        addLog(`📚 History Question: Incorrect. ${randomQuestion.explanation}`);
+                        addLog(`🎣 You need to answer correctly to go fishing! Try again!`);
+                        
+                        // Close modal but DON'T start fishing - they got it wrong
+                        setTimeout(() => {
+                            modal.classList.remove('active');
+                            // Don't call proceedWithFishing() - they can't fish if they got it wrong
+                        }, 3000);
+                    }
+                };
+                optionsDiv.appendChild(button);
+            });
+            
+            modal.classList.add('active');
+        }
+
+        // Original fishing logic (extracted to be called after question)
+        function proceedWithFishing() {
+            if (fishingGameActive || isCompletingCatch) {
+                return;
+            }
+            
+            const rod = getCurrentRod();
+            if (!rod) {
+                addLog('❌ Error: No fishing rod available!');
+                return;
+            }
+            
+            const islandIndex = gameState.currentIsland;
+            const availableFish = fishByIsland[islandIndex] || fishByIsland[0];
+            if (!availableFish || availableFish.length === 0) {
+                addLog('❌ No fish available at this island!');
+                return;
+            }
+            
+            // Weighted random selection
+            const fishWeights = availableFish.map(fish => {
+                let weight = 1.0;
+                if (fish.baseValue <= 8) {
+                    weight = 0.5;
+                } else if (fish.baseValue <= 15) {
+                    weight = 1.0;
+                } else if (fish.rarity === 'uncommon') {
+                    weight = 1.5;
+                } else if (fish.rarity === 'rare') {
+                    weight = 2.0;
+                } else if (fish.rarity === 'epic') {
+                    weight = 2.5;
+                } else if (fish.rarity === 'legendary') {
+                    weight = 3.0;
+                }
+                return { fish, weight };
+            });
+            
+            const totalWeight = fishWeights.reduce((sum, fw) => sum + fw.weight, 0);
+            let rand = Math.random() * totalWeight;
+            let selectedFish = availableFish[0];
+            
+            for (const { fish, weight } of fishWeights) {
+                rand -= weight;
+                if (rand <= 0) {
+                    selectedFish = fish;
+                    break;
+                }
+            }
+            
+            const fishType = selectedFish;
+            
+            if (!fishType || !fishType.name || !fishType.baseSize) {
+                console.error('Invalid fish type:', fishType);
+                addLog('❌ Error: Invalid fish type!');
+                return;
+            }
+            
+            if (autoFishingMode) {
+                currentFish = fishType;
+                if (currentFish && currentFish.baseSize) {
+                    completeCatch();
+                }
+                return;
+            }
+            
+            const rodSpeedBonus = 1 / rod.qualityBonus;
+            catchTimeRequired = fishType.catchTime * rodSpeedBonus;
+            
+            currentFish = fishType;
+            fishingGameActive = true;
+            catchProgress = 0;
+            fishPosition = 0;
+            playerPosition = 0;
+            fishDirection = Math.random() > 0.5 ? 1 : -1;
+            
+            document.getElementById('fishingFishName').textContent = `A ${fishType.name} appeared!`;
+            document.getElementById('fishingGameModal').classList.add('active');
+            
+            setTimeout(() => {
+                startFishingGame();
+            }, 50);
+        }
+
+        // Toggle history questions
+        function toggleHistoryQuestions() {
+            historyQuestionsEnabled = !historyQuestionsEnabled;
+            const btn = document.getElementById('toggleQuestionsBtn');
+            if (btn) {
+                btn.textContent = `📚 History Questions: ${historyQuestionsEnabled ? 'ON' : 'OFF'}`;
+                btn.classList.toggle('active', historyQuestionsEnabled);
+            }
+            addLog(`📚 History Questions ${historyQuestionsEnabled ? 'enabled' : 'disabled'}.`);
+            saveGame();
+        }
+
         // Fishing function - starts mini-game
         function goFishing() {
             console.log('goFishing called');
@@ -1178,6 +2286,16 @@
                 if (fishingGameActive || isCompletingCatch) {
                     console.log('Already fishing or completing catch');
                     return; // Already fishing or completing catch
+                }
+                
+                // Show history question first if enabled
+                if (historyQuestionsEnabled) {
+                    showHistoryQuestion();
+                    return; // Exit early, fishing will start after question is answered
+                } else {
+                    // Skip question and go straight to fishing
+                    proceedWithFishing();
+                    return;
                 }
                 
                 const rod = getCurrentRod();
@@ -1319,19 +2437,102 @@
                 fishIndicator.style.left = fishPosition + 'px';
             }
             
+            // Add mouse drag and touch support for player bar
+            const fishingTrack = document.querySelector('.fishing-bar-track');
+            let isDragging = false;
+            
+            const updatePlayerPosition = (clientX) => {
+                if (!fishingGameActive || aiFishingMacroActive) return;
+                
+                const rect = container.getBoundingClientRect();
+                let newPosition = clientX - rect.left - (playerWidth / 2);
+                newPosition = Math.max(0, Math.min(maxPlayerPosition, newPosition));
+                playerPosition = newPosition;
+                if (playerBar) {
+                    playerBar.style.left = playerPosition + 'px';
+                }
+            };
+            
+            // Mouse events
+            fishingTrack.addEventListener('mousedown', (e) => {
+                if (!fishingGameActive || aiFishingMacroActive) return;
+                isDragging = true;
+                updatePlayerPosition(e.clientX);
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging && fishingGameActive && !aiFishingMacroActive) {
+                    updatePlayerPosition(e.clientX);
+                }
+            });
+            
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+            
+            // Touch events for mobile
+            fishingTrack.addEventListener('touchstart', (e) => {
+                if (!fishingGameActive || aiFishingMacroActive) return;
+                isDragging = true;
+                const touch = e.touches[0];
+                updatePlayerPosition(touch.clientX);
+                e.preventDefault();
+            });
+            
+            document.addEventListener('touchmove', (e) => {
+                if (isDragging && fishingGameActive && !aiFishingMacroActive) {
+                    const touch = e.touches[0];
+                    updatePlayerPosition(touch.clientX);
+                    e.preventDefault();
+                }
+            });
+            
+            document.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+            
             // Fish movement variables for more random behavior
             let fishSpeedVariation = 0;
             let directionChangeCounter = 0;
             const baseFishSpeed = 3 + (currentFish.catchTime / 2); // Faster base speed
             
             fishingGameInterval = setInterval(() => {
-                // Move player bar based on keys
-                const playerSpeed = 5;
-                if (keysPressed.left) {
-                    playerPosition = Math.max(0, playerPosition - playerSpeed);
-                }
-                if (keysPressed.right) {
-                    playerPosition = Math.min(maxPlayerPosition, playerPosition + playerSpeed);
+                // AI Fishing Macro - automatically move player bar to catch fish
+                if (aiFishingMacroActive) {
+                    const fishCenter = fishPosition + fishWidth / 2;
+                    const playerCenter = playerPosition + playerWidth / 2;
+                    const distance = fishCenter - playerCenter;
+                    // AI moves fast but not too fast - balanced speed
+                    const aiSpeed = 50; // Fast but manageable AI speed
+                    
+                    if (Math.abs(distance) > 3) { // Only move if not already aligned
+                        if (distance > 0) {
+                            // Fish is to the right, move player right
+                            playerPosition = Math.min(maxPlayerPosition, playerPosition + aiSpeed);
+                        } else {
+                            // Fish is to the left, move player left
+                            playerPosition = Math.max(0, playerPosition - aiSpeed);
+                        }
+                    }
+                } else {
+                    // Move player bar based on keys (normal player control)
+                    // Player speed scales with rod quality - reduced to about half
+                    const rod = getCurrentRod();
+                    const basePlayerSpeed = 25; // Reduced from 50 to about half
+                    const rodSpeedMultiplier = rod ? (rod.qualityBonus * 2.5) : 1; // Reduced multiplier
+                    const playerSpeed = basePlayerSpeed * rodSpeedMultiplier;
+                    
+                    // Ensure minimum speed even with starter rod
+                    const minSpeed = 15;
+                    const finalSpeed = Math.max(minSpeed, playerSpeed);
+                    
+                    if (keysPressed.left) {
+                        playerPosition = Math.max(0, playerPosition - finalSpeed);
+                    }
+                    if (keysPressed.right) {
+                        playerPosition = Math.min(maxPlayerPosition, playerPosition + finalSpeed);
+                    }
                 }
                 
                 // Move fish with more random, erratic movement
@@ -1412,17 +2613,28 @@
 
             // Create celebration text
             const celebrationText = document.createElement('div');
-            celebrationText.className = 'celebration-text' + (isMutated ? ' mutated' : '');
+            const hasSpecialMutation = fish.specialMutation;
+            celebrationText.className = 'celebration-text' + (isMutated || hasSpecialMutation ? ' mutated' : '');
             
             // Choose message based on fish value and mutation
             let message = '🎣 Great Catch!';
-            if (isMutated) {
+            if (hasSpecialMutation) {
+                message = `✨ ${fish.specialMutation.toUpperCase()} MUTATION! ✨`;
+                // Apply special mutation color
+                const mutation = specialMutations.find(m => m.name === fish.specialMutation);
+                if (mutation) {
+                    celebrationText.style.color = mutation.color;
+                    celebrationText.style.textShadow = mutation.glow;
+                }
+            } else if (isMutated) {
                 message = '✨ MUTATED FISH! ✨';
-            } else if (fish.value > 10000) {
+            } else if (fish.value > 1000000000) {
+                message = '🌌 LEGENDARY CATCH! 🌌';
+            } else if (fish.value > 100000000) {
                 message = '🌟 AMAZING CATCH! 🌟';
-            } else if (fish.value > 5000) {
+            } else if (fish.value > 10000000) {
                 message = '💎 EXCELLENT! 💎';
-            } else if (fish.value > 1000) {
+            } else if (fish.value > 1000000) {
                 message = '⭐ NICE CATCH! ⭐';
             }
             
@@ -1502,26 +2714,50 @@
             const mutationChance = 0.05 * rod.qualityBonus;
             const isMutated = Math.random() < mutationChance;
             
+            // Special mutation chance (rarer, only if already mutated)
+            let specialMutation = null;
+            if (isMutated) {
+                const specialMutationChance = 0.15 * rod.qualityBonus; // 15% base chance when mutated
+                if (Math.random() < specialMutationChance) {
+                    specialMutation = specialMutations[Math.floor(Math.random() * specialMutations.length)];
+                }
+            }
+            
+            // Calculate value with mutations
+            let valueMultiplier = 1;
+            if (specialMutation) {
+                valueMultiplier = specialMutation.multiplier;
+            } else if (isMutated) {
+                valueMultiplier = 3; // Regular mutation
+            }
+            
             const fish = {
                 type: fishType.name,
                 size: size.toFixed(2),
-                value: Math.floor(fishType.baseValue * size * (isMutated ? 3 : 1)),
+                value: Math.floor(fishType.baseValue * size * valueMultiplier),
                 mutated: isMutated,
+                specialMutation: specialMutation ? specialMutation.name : null,
                 rarity: fishType.rarity
             };
             
             gameState.inventory.push(fish);
             gameState.totalFishCaught++;
             
-            const expGain = Math.floor(fish.value / 10) * (isMutated ? 2 : 1) * 4;
+            const expMultiplier = specialMutation ? specialMutation.multiplier : (isMutated ? 2 : 1);
+            const expGain = Math.floor(fish.value / 10) * expMultiplier * 4;
             addExperience(expGain);
             
-            const mutationText = isMutated ? " ✨ MUTATED ✨" : "";
-            addLog(`🎣 Caught: ${fish.type} (${fish.size}kg)${mutationText} - Worth ${fish.value} gold!`);
+            let mutationText = "";
+            if (specialMutation) {
+                mutationText = ` ✨ ${specialMutation.name.toUpperCase()} MUTATION ✨`;
+            } else if (isMutated) {
+                mutationText = " ✨ MUTATED ✨";
+            }
+            addLog(`🎣 Caught: ${fish.type} (${fish.size}kg)${mutationText} - Worth ${fish.value.toLocaleString()} gold!`);
             
             // Trigger celebration animation after a small delay to ensure modal is closed
             setTimeout(() => {
-                triggerCelebration(fish, isMutated);
+                triggerCelebration(fish, isMutated || !!fish.specialMutation);
             }, 100);
             
             updateUI();
@@ -1566,11 +2802,14 @@
                 return;
             }
             
-            const totalValue = gameState.inventory.reduce((sum, fish) => sum + fish.value, 0);
+            const baseValue = gameState.inventory.reduce((sum, fish) => sum + fish.value, 0);
+            // Apply rebirth bonus to gold gain
+            const totalValue = Math.floor(baseValue * gameState.rebirthBonus);
             gameState.gold += totalValue;
             gameState.inventory = [];
             
-            addLog(`💰 Sold all fish for ${totalValue} gold!`);
+            const bonusText = gameState.rebirthBonus > 1 ? ` (${gameState.rebirthBonus.toFixed(1)}x rebirth bonus!)` : '';
+            addLog(`💰 Sold all fish for ${totalValue.toLocaleString()} gold${bonusText}!`);
             updateUI();
             saveGame();
         }
@@ -1692,8 +2931,12 @@
             gameState.currentIsland = index;
             const currentIsland = islands[index];
             
-            // Change background color
-            document.body.style.background = currentIsland.background;
+            // Change background - remove all island background classes first
+            document.body.className = document.body.className.replace(/island-bg-\w+/g, '').trim();
+            // Add new background class
+            if (currentIsland.backgroundClass) {
+                document.body.classList.add(currentIsland.backgroundClass);
+            }
             
             addLog(`🏝️ Traveled to ${currentIsland.name}!`);
             updateUI();
@@ -1704,8 +2947,18 @@
         function updateUI() {
             document.getElementById('level').textContent = gameState.level;
             document.getElementById('gold').textContent = gameState.gold.toLocaleString();
-            document.getElementById('currentIsland').textContent = islands[gameState.currentIsland].name;
+            const currentIsland = islands[gameState.currentIsland];
+            const islandEmoji = currentIsland.emoji || '🏝️';
+            const currentIslandEl = document.getElementById('currentIsland');
+            // Use innerHTML to support emoji properly
+            currentIslandEl.innerHTML = `${islandEmoji} ${currentIsland.name}`;
             document.getElementById('rodsOwned').textContent = `${gameState.ownedRods.length}/50`;
+            
+            // Update rebirth count display
+            const rebirthCountEl = document.getElementById('rebirthCount');
+            if (rebirthCountEl) {
+                rebirthCountEl.textContent = `Rebirths: ${gameState.rebirthCount}`;
+            }
             
             // Level progress
             const expForNext = getExpForLevel(gameState.level);
@@ -1730,14 +2983,24 @@
             }
             
             inventoryDiv.innerHTML = gameState.inventory.map((fish, index) => {
-                const mutatedClass = fish.mutated ? 'mutated' : '';
+                let classes = '';
+                let mutationText = '';
+                
+                if (fish.specialMutation) {
+                    classes = `special-mutation ${fish.specialMutation.toLowerCase().replace(' ', '-')}`;
+                    mutationText = `✨ ${fish.specialMutation.toUpperCase()} MUTATION ✨`;
+                } else if (fish.mutated) {
+                    classes = 'mutated';
+                    mutationText = '✨ MUTATED ✨';
+                }
+                
                 return `
-                    <div class="fish-item ${mutatedClass}">
+                    <div class="fish-item ${classes}">
                         <div>
                             <strong>${fish.type}</strong> - ${fish.size}kg
-                            ${fish.mutated ? '✨ MUTATED ✨' : ''}
+                            ${mutationText}
                         </div>
-                        <div>${fish.value} gold</div>
+                        <div>${fish.value.toLocaleString()} gold</div>
                     </div>
                 `;
             }).join('');
@@ -1755,9 +3018,25 @@
                 if (!isUnlocked && !canUnlock) classes += ' locked';
                 if (isActive) classes += ' active';
                 
+                // Get emoji with special styling for certain islands
+                let islandEmoji = island.emoji || '🏝️';
+                let iconClass = '';
+                
+                // Add special icon classes for visual distinction
+                if (island.name === "Coral Reef") iconClass = 'island-icon-coral';
+                else if (island.name === "Dragon's Cove") iconClass = 'island-icon-dragon';
+                else if (island.name === "Phantom Sea") iconClass = 'island-icon-phantom';
+                else if (island.name === "Thunder Reef") iconClass = 'island-icon-thunder';
+                else if (island.name === "Mystic Depths") iconClass = 'island-icon-mysticdepths';
+                else if (island.name === "Celestial Waters") iconClass = 'island-icon-celestial';
+                else if (island.name === "Void Trench") iconClass = 'island-icon-void';
+                else if (island.name === "Infinity Sea") iconClass = 'island-icon-infinity';
+                
+                const iconDisplay = iconClass ? `<span class="island-icon ${iconClass}"></span>` : `${islandEmoji} `;
+                
                 return `
                     <div class="${classes}" onclick="changeIsland(${index})">
-                        <h3>${island.name}</h3>
+                        <h3>${iconDisplay}${island.name}</h3>
                         ${!isUnlocked ? `<p>Unlock: ${island.unlockCost} gold<br>Boat: ${boats[island.boatReq].name}</p>` : ''}
                         ${isActive ? '<p>📍 Current</p>' : ''}
                     </div>
@@ -1857,6 +3136,11 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
+            if (modalId === 'mapModal') {
+                stopMapMovement();
+                // Reset keys
+                mapKeysPressed = { w: false, a: false, s: false, d: false };
+            }
         }
 
         // Auto-clicker functions
@@ -1895,6 +3179,61 @@
             saveGame();
         }
 
+        // Add levels function
+        function addLevels() {
+            const levelsToAdd = 100;
+            const oldLevel = gameState.level;
+            gameState.level = Math.min(2000, gameState.level + levelsToAdd);
+            const levelsAdded = gameState.level - oldLevel;
+            
+            addLog(`⬆️ Secret discovered! You gained ${levelsAdded} levels!`);
+            addLog(`📈 You are now level ${gameState.level}!`);
+            updateUI();
+            saveGame();
+        }
+
+        // Rebirth function - Reset progress for permanent bonuses
+        function rebirth() {
+            // Check if player has enough progress to rebirth
+            if (gameState.level < 50) {
+                alert('You need to be at least level 50 to rebirth!');
+                return;
+            }
+            
+            if (!confirm(`🔄 REBIRTH?\n\nThis will reset:\n- Level: ${gameState.level} → 1\n- Gold: ${gameState.gold.toLocaleString()} → 100\n- Experience: ${gameState.experience} → 0\n- Inventory: ${gameState.inventory.length} fish → 0\n- Islands: Reset to Starter Island\n- Boats: Reset to Raft\n- Rods: Reset to Starter Rod\n\nYou will gain:\n- +${gameState.rebirthCount + 1} permanent rebirth bonus (${((gameState.rebirthCount + 1) * 0.5 + 1).toFixed(1)}x multiplier)\n- Rebirth Count: ${gameState.rebirthCount} → ${gameState.rebirthCount + 1}\n\nContinue?`)) {
+                return;
+            }
+            
+            // Calculate rebirth bonus (1.5x per rebirth, stacking)
+            gameState.rebirthCount++;
+            gameState.rebirthBonus = 1 + (gameState.rebirthCount * 0.5); // 1.5x, 2x, 2.5x, etc.
+            
+            // Reset game state
+            const oldLevel = gameState.level;
+            gameState.level = 1;
+            gameState.gold = 100;
+            gameState.experience = 0;
+            gameState.currentIsland = 0;
+            gameState.inventory = [];
+            gameState.ownedBoats = [0];
+            gameState.ownedRods = [0];
+            gameState.unlockedIslands = [0];
+            
+            // Reset background
+            document.body.className = document.body.className.replace(/island-bg-\w+/g, '').trim();
+            if (islands[0].backgroundClass) {
+                document.body.classList.add(islands[0].backgroundClass);
+            }
+            
+            addLog(`🔄 REBIRTH COMPLETE!`);
+            addLog(`✨ You are now on Rebirth ${gameState.rebirthCount}!`);
+            addLog(`📈 Permanent Bonus: ${gameState.rebirthBonus.toFixed(1)}x multiplier to gold and experience!`);
+            addLog(`🎣 Starting fresh with enhanced power!`);
+            
+            updateUI();
+            saveGame();
+        }
+
         // Poop button - Gives you all the best rods!
         function poopButtonClick() {
             // Unlock all 50 rods
@@ -1913,12 +3252,83 @@
             saveGame();
         }
 
+        // Unlock all boats function
+        function unlockAllBoats() {
+            // Unlock all boats
+            for (let i = 0; i < boats.length; i++) {
+                if (!gameState.ownedBoats.includes(i)) {
+                    gameState.ownedBoats.push(i);
+                }
+            }
+            
+            // Sort owned boats array
+            gameState.ownedBoats.sort((a, b) => a - b);
+            
+            // Check for island unlocks based on boats
+            islands.forEach((island, islandIndex) => {
+                if (!gameState.unlockedIslands.includes(islandIndex)) {
+                    const bestBoatIndex = Math.max(...gameState.ownedBoats);
+                    if (bestBoatIndex >= island.boatReq && gameState.gold >= island.unlockCost) {
+                        gameState.unlockedIslands.push(islandIndex);
+                        addLog(`🏝️ ${island.name} is now available!`);
+                    }
+                }
+            });
+            
+            addLog('⚓ Secret discovered! You received ALL BOATS!');
+            addLog('🚢 You now own all boats including the Titan!');
+            updateUI();
+            renderShipwright();
+            saveGame();
+        }
+
+        // Toggle secret panel
+        function toggleSecretPanel() {
+            const panel = document.getElementById('secretPanel');
+            panel.classList.toggle('active');
+        }
+
+        // AI Fishing Macro - Automatically plays the fishing mini-game
+        function toggleAutoFishingMacro() {
+            aiFishingMacroActive = !aiFishingMacroActive;
+            const btn = document.getElementById('autoFishingMacroBtn');
+            
+            if (aiFishingMacroActive) {
+                btn.textContent = '🤖 AI Fishing Macro: ON';
+                btn.classList.add('active');
+                addLog('🤖 AI Fishing Macro activated! Will automatically catch fish!');
+                
+                // Start AI fishing loop
+                aiFishingInterval = setInterval(() => {
+                    if (!fishingGameActive && !isCompletingCatch) {
+                        goFishing();
+                    }
+                }, 500); // Check every 500ms
+            } else {
+                btn.textContent = '🤖 AI Fishing Macro: OFF';
+                btn.classList.remove('active');
+                addLog('🤖 AI Fishing Macro deactivated.');
+                
+                if (aiFishingInterval) {
+                    clearInterval(aiFishingInterval);
+                    aiFishingInterval = null;
+                }
+            }
+            saveGame();
+        }
+
         // Rusty Pipe - Toggle auto-fishing mode (instantly catch fish without mini-game)
         function toggleAutoFishing() {
             autoFishingMode = !autoFishingMode;
+            const btn = document.getElementById('rustyPipeBtn');
+            
             if (autoFishingMode) {
+                btn.textContent = '🔧 Rusty Pipe (Instant Catch): ON';
+                btn.classList.add('active');
                 addLog('🔧 Rusty Pipe activated! Fish will be caught instantly!');
             } else {
+                btn.textContent = '🔧 Rusty Pipe (Instant Catch): OFF';
+                btn.classList.remove('active');
                 addLog('🔧 Rusty Pipe deactivated. Back to normal fishing.');
             }
             updateUI();
@@ -2008,38 +3418,149 @@
             saveGame();
         }
 
-        // Render map with islands
-        function renderMap() {
+        // Island positions in world coordinates (on the 2000x2000 map)
+        const islandWorldPositions = [
+            { x: 200, y: 1000 },    // 0: Starter Island
+            { x: 400, y: 600 },     // 1: Coral Reef
+            { x: 600, y: 400 },     // 2: Deep Blue
+            { x: 800, y: 500 },     // 3: Mystic Waters
+            { x: 1000, y: 600 },    // 4: Abyssal Depths
+            { x: 1200, y: 800 },    // 5: Golden Lagoon
+            { x: 1400, y: 1200 },   // 6: Crystal Bay
+            { x: 1600, y: 1500 },   // 7: Dragon's Cove
+            { x: 1300, y: 1700 },   // 8: Phantom Sea
+            { x: 900, y: 1800 },    // 9: Legendary Archipelago
+            { x: 600, y: 1700 },    // 10: Thunder Reef
+            { x: 300, y: 1500 },    // 11: Mystic Depths
+            { x: 100, y: 1200 },    // 12: Celestial Waters
+            { x: 200, y: 800 },     // 13: Void Trench
+            { x: 400, y: 500 },     // 14: Eternal Ocean
+            { x: 700, y: 300 },     // 15: Infinity Sea
+            { x: 1000, y: 200 }     // 16: (if more islands added)
+        ];
+
+        // Start player at current island position
+        function initializeMapPlayer() {
+            const currentIslandPos = islandWorldPositions[gameState.currentIsland] || { x: 1000, y: 1000 };
+            mapPlayerX = currentIslandPos.x;
+            mapPlayerY = currentIslandPos.y;
+        }
+
+        // Update camera to follow player
+        function updateMapCamera() {
             const mapContainer = document.getElementById('mapContainer');
-            mapContainer.innerHTML = '';
+            const mapWorld = document.getElementById('mapWorld');
+            if (!mapContainer || !mapWorld) return;
             
             const containerWidth = mapContainer.offsetWidth;
             const containerHeight = mapContainer.offsetHeight;
             
-            // Position islands in a spiral/archipelago pattern
-            const positions = [
-                { x: containerWidth * 0.15, y: containerHeight * 0.5 },   // Starter Island
-                { x: containerWidth * 0.3, y: containerHeight * 0.3 },   // Coral Reef
-                { x: containerWidth * 0.45, y: containerHeight * 0.2 },   // Deep Blue
-                { x: containerWidth * 0.6, y: containerHeight * 0.25 },   // Mystic Waters
-                { x: containerWidth * 0.75, y: containerHeight * 0.3 },   // Abyssal Depths
-                { x: containerWidth * 0.85, y: containerHeight * 0.45 },  // Golden Lagoon
-                { x: containerWidth * 0.8, y: containerHeight * 0.65 },  // Crystal Bay
-                { x: containerWidth * 0.65, y: containerHeight * 0.75 },  // Dragon's Cove
-                { x: containerWidth * 0.45, y: containerHeight * 0.8 },    // Phantom Sea
-                { x: containerWidth * 0.25, y: containerHeight * 0.7 }    // Legendary Archipelago
-            ];
+            // Center camera on player
+            mapCameraX = mapPlayerX - containerWidth / 2;
+            mapCameraY = mapPlayerY - containerHeight / 2;
+            
+            // Clamp camera to world bounds
+            mapCameraX = Math.max(0, Math.min(2000 - containerWidth, mapCameraX));
+            mapCameraY = Math.max(0, Math.min(2000 - containerHeight, mapCameraY));
+            
+            mapWorld.style.transform = `translate(${-mapCameraX}px, ${-mapCameraY}px)`;
+        }
+
+        // Update player position on map
+        function updateMapPlayer() {
+            const player = document.getElementById('mapPlayer');
+            if (player) {
+                player.style.left = mapPlayerX + 'px';
+                player.style.top = mapPlayerY + 'px';
+            }
+            updateMapCamera();
+            checkIslandProximity();
+        }
+
+        // Check if player is near an island
+        function checkIslandProximity() {
+            const proximityDistance = 100; // pixels
+            
+            islands.forEach((island, index) => {
+                const pos = islandWorldPositions[index];
+                if (!pos) return;
+                
+                const distance = Math.sqrt(
+                    Math.pow(mapPlayerX - pos.x, 2) + 
+                    Math.pow(mapPlayerY - pos.y, 2)
+                );
+                
+                if (distance < proximityDistance) {
+                    const isUnlocked = gameState.unlockedIslands.includes(index);
+                    const bestBoatIndex = Math.max(...gameState.ownedBoats);
+                    const canUnlock = !isUnlocked && bestBoatIndex >= island.boatReq && gameState.gold >= island.unlockCost;
+                    
+                    if (isUnlocked || canUnlock) {
+                        if (gameState.currentIsland !== index) {
+                            changeIsland(index);
+                            addLog(`🗺️ Arrived at ${island.name}!`);
+                        }
+                    }
+                }
+            });
+        }
+
+        // Start map movement system
+        function startMapMovement() {
+            if (mapMovementInterval) return;
+            
+            mapMovementInterval = setInterval(() => {
+                const speed = 3;
+                
+                if (mapKeysPressed.w) mapPlayerY = Math.max(15, mapPlayerY - speed);
+                if (mapKeysPressed.s) mapPlayerY = Math.min(1985, mapPlayerY + speed);
+                if (mapKeysPressed.a) mapPlayerX = Math.max(15, mapPlayerX - speed);
+                if (mapKeysPressed.d) mapPlayerX = Math.min(1985, mapPlayerX + speed);
+                
+                updateMapPlayer();
+            }, 16); // ~60 FPS
+        }
+
+        // Stop map movement system
+        function stopMapMovement() {
+            if (mapMovementInterval) {
+                clearInterval(mapMovementInterval);
+                mapMovementInterval = null;
+            }
+        }
+
+        // Render map with islands - Walking navigation
+        function renderMap() {
+            const mapWorld = document.getElementById('mapWorld');
+            if (!mapWorld) return;
+            
+            // Clear islands but keep player
+            const existingIslands = mapWorld.querySelectorAll('.map-island');
+            existingIslands.forEach(island => island.remove());
+            
+            // Initialize player position if not set
+            if (mapPlayerX === 1000 && mapPlayerY === 1000) {
+                initializeMapPlayer();
+            }
+            
+            updateMapPlayer();
             
             const bestBoatIndex = Math.max(...gameState.ownedBoats);
+            
+            // Render islands in world coordinates
             islands.forEach((island, index) => {
+                const pos = islandWorldPositions[index];
+                if (!pos) return;
+                
                 const isUnlocked = gameState.unlockedIslands.includes(index);
                 const isCurrent = gameState.currentIsland === index;
                 const canUnlock = !isUnlocked && bestBoatIndex >= island.boatReq && gameState.gold >= island.unlockCost;
                 
                 const islandDiv = document.createElement('div');
                 islandDiv.className = 'map-island';
-                islandDiv.style.left = positions[index].x + 'px';
-                islandDiv.style.top = positions[index].y + 'px';
+                islandDiv.style.left = pos.x + 'px';
+                islandDiv.style.top = pos.y + 'px';
+                islandDiv.style.zIndex = '10';
                 
                 if (isCurrent) {
                     islandDiv.classList.add('current');
@@ -2048,20 +3569,36 @@
                     islandDiv.classList.add('locked');
                 }
                 
-                islandDiv.innerHTML = `<div>${island.name}</div>`;
+                // Show unlock cost and requirements
+                const islandEmoji = island.emoji || '🏝️';
+                // Add special icon classes for visual distinction on map
+                let iconClass = '';
+                if (island.name === "Coral Reef") iconClass = 'island-icon-coral';
+                else if (island.name === "Dragon's Cove") iconClass = 'island-icon-dragon';
+                else if (island.name === "Phantom Sea") iconClass = 'island-icon-phantom';
+                else if (island.name === "Thunder Reef") iconClass = 'island-icon-thunder';
+                else if (island.name === "Mystic Depths") iconClass = 'island-icon-mysticdepths';
+                else if (island.name === "Celestial Waters") iconClass = 'island-icon-celestial';
+                else if (island.name === "Void Trench") iconClass = 'island-icon-void';
+                else if (island.name === "Infinity Sea") iconClass = 'island-icon-infinity';
+                
+                const iconDisplay = iconClass ? `<span class="island-icon ${iconClass}"></span>` : `${islandEmoji} `;
+                let infoText = `<div style="font-weight: bold; margin-bottom: 3px;">${iconDisplay}${island.name}</div>`;
+                if (!isUnlocked) {
+                    infoText += `<div style="font-size: 0.7em;">${island.unlockCost.toLocaleString()} gold</div>`;
+                    infoText += `<div style="font-size: 0.7em;">${boats[island.boatReq].name}</div>`;
+                }
+                
+                islandDiv.innerHTML = infoText;
                 islandDiv.title = isUnlocked 
-                    ? `Click to travel to ${island.name}` 
-                    : `Locked - Requires ${boats[island.boatReq].name} and ${island.unlockCost} gold`;
+                    ? `Walk here to visit ${island.name}` 
+                    : `Locked - Requires ${boats[island.boatReq].name} and ${island.unlockCost.toLocaleString()} gold`;
                 
-                islandDiv.onclick = () => {
-                    if (isUnlocked || canUnlock) {
-                        changeIsland(index);
-                        closeModal('mapModal');
-                    }
-                };
-                
-                mapContainer.appendChild(islandDiv);
+                mapWorld.appendChild(islandDiv);
             });
+            
+            // Start movement system
+            startMapMovement();
         }
 
         // Save/Load functions using cookies
@@ -2074,6 +3611,8 @@
                     gameState: {
                         level: gameState.level || 1,
                         gold: gameState.gold || 100,
+                        rebirthCount: gameState.rebirthCount || 0,
+                        rebirthBonus: gameState.rebirthBonus || 1.0,
                         experience: gameState.experience || 0,
                         currentIsland: gameState.currentIsland || 0,
                         inventory: gameState.inventory ? JSON.parse(JSON.stringify(gameState.inventory)) : [],
@@ -2085,7 +3624,9 @@
                     autoClickerActive: autoClickerActive || false,
                     secretAutoClickerActive: secretAutoClickerActive || false,
                     secretFishAutoClickerActive: secretFishAutoClickerActive || false,
-                    autoFishingMode: autoFishingMode || false
+                    autoFishingMode: autoFishingMode || false,
+                    aiFishingMacroActive: aiFishingMacroActive || false,
+                    historyQuestionsEnabled: historyQuestionsEnabled !== undefined ? historyQuestionsEnabled : true
                 };
                 
                 const saveString = JSON.stringify(saveData);
@@ -2183,9 +3724,22 @@
                 // Restore game state
                 Object.assign(gameState, saveData.gameState);
                 
-                // Restore background color based on current island
+                // Ensure rebirth bonus is calculated if missing
+                if (!gameState.rebirthBonus && gameState.rebirthCount) {
+                    gameState.rebirthBonus = 1 + (gameState.rebirthCount * 0.5);
+                } else if (!gameState.rebirthBonus) {
+                    gameState.rebirthBonus = 1.0;
+                }
+                if (!gameState.rebirthCount) {
+                    gameState.rebirthCount = 0;
+                }
+                
+                // Restore background based on current island
                 if (gameState.currentIsland !== undefined && islands[gameState.currentIsland]) {
-                    document.body.style.background = islands[gameState.currentIsland].background;
+                    document.body.className = document.body.className.replace(/island-bg-\w+/g, '').trim();
+                    if (islands[gameState.currentIsland].backgroundClass) {
+                        document.body.classList.add(islands[gameState.currentIsland].backgroundClass);
+                    }
                 }
                 
                 // Restore auto-clicker states (only toggle if they were active)
@@ -2200,6 +3754,28 @@
                 }
                 if (saveData.autoFishingMode !== undefined) {
                     autoFishingMode = saveData.autoFishingMode;
+                    // Update button state
+                    const rustyPipeBtn = document.getElementById('rustyPipeBtn');
+                    if (rustyPipeBtn) {
+                        rustyPipeBtn.textContent = autoFishingMode 
+                            ? '🔧 Rusty Pipe (Instant Catch): ON' 
+                            : '🔧 Rusty Pipe (Instant Catch): OFF';
+                        if (autoFishingMode) rustyPipeBtn.classList.add('active');
+                        else rustyPipeBtn.classList.remove('active');
+                    }
+                }
+                if (saveData.aiFishingMacroActive && !aiFishingMacroActive) {
+                    toggleAutoFishingMacro();
+                }
+                
+                // Restore history questions setting
+                if (saveData.historyQuestionsEnabled !== undefined) {
+                    historyQuestionsEnabled = saveData.historyQuestionsEnabled;
+                    const questionsBtn = document.getElementById('toggleQuestionsBtn');
+                    if (questionsBtn) {
+                        questionsBtn.textContent = `📚 History Questions: ${historyQuestionsEnabled ? 'ON' : 'OFF'}`;
+                        questionsBtn.classList.toggle('active', historyQuestionsEnabled);
+                    }
                 }
                 
                 addLog('💾 Game loaded successfully!');
@@ -2222,14 +3798,9 @@
             console.error('fishBtn not found!');
         }
         
-        const autoclickerBtn = document.getElementById('autoclickerBtn');
-        if (autoclickerBtn) autoclickerBtn.addEventListener('click', toggleAutoClicker);
+        // Auto-clicker button removed from fishing window (moved to secret panel)
         
-        const secretAutoclickerBtn = document.getElementById('secretAutoclickerBtn');
-        if (secretAutoclickerBtn) secretAutoclickerBtn.addEventListener('click', toggleSecretAutoClicker);
-        
-        const secretFishAutoclickerBtn = document.getElementById('secretFishAutoclickerBtn');
-        if (secretFishAutoclickerBtn) secretFishAutoclickerBtn.addEventListener('click', toggleSecretFishAutoClicker);
+        // Secret auto-clicker buttons are now in the secret panel with onclick handlers
         
         const saveBtn = document.getElementById('saveBtn');
         if (saveBtn) saveBtn.addEventListener('click', manualSave);
@@ -2258,8 +3829,33 @@
             });
         });
 
-        // Keyboard controls for fishing game
+        // Keyboard controls for fishing game and map movement
         document.addEventListener('keydown', (e) => {
+            // Check if map modal is open
+            const mapModal = document.getElementById('mapModal');
+            const isMapOpen = mapModal && mapModal.classList.contains('active');
+            
+            if (isMapOpen) {
+                // Map movement controls (WASD)
+                if (e.key === 'w' || e.key === 'W') {
+                    mapKeysPressed.w = true;
+                    e.preventDefault();
+                }
+                if (e.key === 'a' || e.key === 'A') {
+                    mapKeysPressed.a = true;
+                    e.preventDefault();
+                }
+                if (e.key === 's' || e.key === 'S') {
+                    mapKeysPressed.s = true;
+                    e.preventDefault();
+                }
+                if (e.key === 'd' || e.key === 'D') {
+                    mapKeysPressed.d = true;
+                    e.preventDefault();
+                }
+                return; // Don't process fishing game keys when map is open
+            }
+            
             if (!fishingGameActive) return;
             
             if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
@@ -2273,6 +3869,31 @@
         });
 
         document.addEventListener('keyup', (e) => {
+            // Check if map modal is open
+            const mapModal = document.getElementById('mapModal');
+            const isMapOpen = mapModal && mapModal.classList.contains('active');
+            
+            if (isMapOpen) {
+                // Map movement controls (WASD)
+                if (e.key === 'w' || e.key === 'W') {
+                    mapKeysPressed.w = false;
+                    e.preventDefault();
+                }
+                if (e.key === 'a' || e.key === 'A') {
+                    mapKeysPressed.a = false;
+                    e.preventDefault();
+                }
+                if (e.key === 's' || e.key === 'S') {
+                    mapKeysPressed.s = false;
+                    e.preventDefault();
+                }
+                if (e.key === 'd' || e.key === 'D') {
+                    mapKeysPressed.d = false;
+                    e.preventDefault();
+                }
+                return; // Don't process fishing game keys when map is open
+            }
+            
             if (!fishingGameActive) return;
             
             if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
@@ -2288,7 +3909,10 @@
         // Initialize
         if (!loadGame()) {
             // No save data found, start fresh
-            document.body.style.background = islands[0].background;
+            document.body.className = document.body.className.replace(/island-bg-\w+/g, '').trim();
+            if (islands[0].backgroundClass) {
+                document.body.classList.add(islands[0].backgroundClass);
+            }
             addLog("🎣 Welcome to Fishing Adventure!");
             addLog("Start fishing to earn gold and level up!");
         }
