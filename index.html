@@ -1069,7 +1069,11 @@
             [
                 { name: "Minnow", baseValue: 5, baseSize: 0.5, rarity: "common", catchTime: 3 },
                 { name: "Bass", baseValue: 15, baseSize: 1.0, rarity: "common", catchTime: 4 },
-                { name: "Carp", baseValue: 10, baseSize: 0.8, rarity: "common", catchTime: 3 }
+                { name: "Carp", baseValue: 10, baseSize: 0.8, rarity: "common", catchTime: 3 },
+                { name: "Perch", baseValue: 12, baseSize: 0.9, rarity: "common", catchTime: 3 },
+                { name: "Sunfish", baseValue: 8, baseSize: 0.7, rarity: "common", catchTime: 2 },
+                { name: "Trout", baseValue: 20, baseSize: 1.2, rarity: "uncommon", catchTime: 5 },
+                { name: "Pike", baseValue: 25, baseSize: 1.5, rarity: "uncommon", catchTime: 6 }
             ],
             // Coral Reef
             [
@@ -1185,13 +1189,51 @@
                 
                 const islandIndex = gameState.currentIsland;
                 
-                // Get random fish from current island
+                // Get random fish from current island with weighted selection
                 const availableFish = fishByIsland[islandIndex] || fishByIsland[0];
                 if (!availableFish || availableFish.length === 0) {
                     addLog('❌ No fish available at this island!');
                     return;
                 }
-                const fishType = availableFish[Math.floor(Math.random() * availableFish.length)];
+                
+                // Weighted random selection - individual fish weights for better variance
+                // Lower value fish (like minnows) get lower weights
+                const fishWeights = availableFish.map(fish => {
+                    // Base weight on value - higher value = higher weight
+                    // Minnows and very cheap fish get 0.5x weight
+                    let weight = 1.0;
+                    if (fish.baseValue <= 8) {
+                        weight = 0.5; // Make minnows and very cheap fish less common
+                    } else if (fish.baseValue <= 15) {
+                        weight = 1.0; // Normal common fish
+                    } else if (fish.rarity === 'uncommon') {
+                        weight = 1.5; // Uncommon fish slightly more common
+                    } else if (fish.rarity === 'rare') {
+                        weight = 2.0; // Rare fish more common
+                    } else if (fish.rarity === 'epic') {
+                        weight = 2.5; // Epic fish more common
+                    } else if (fish.rarity === 'legendary') {
+                        weight = 3.0; // Legendary fish more common
+                    }
+                    return { fish, weight };
+                });
+                
+                // Calculate total weight
+                const totalWeight = fishWeights.reduce((sum, fw) => sum + fw.weight, 0);
+                
+                // Select fish based on weighted random
+                let rand = Math.random() * totalWeight;
+                let selectedFish = availableFish[0]; // Fallback
+                
+                for (const { fish, weight } of fishWeights) {
+                    rand -= weight;
+                    if (rand <= 0) {
+                        selectedFish = fish;
+                        break;
+                    }
+                }
+                
+                const fishType = selectedFish;
                 
                 // Safety check - ensure fishType is valid
                 if (!fishType || !fishType.name || !fishType.baseSize) {
@@ -1221,8 +1263,9 @@
                 currentFish = fishType;
                 fishingGameActive = true;
                 catchProgress = 0;
-                fishPosition = 50; // Start in middle
-                playerPosition = 50; // Start in middle
+                // Initial positions will be set in startFishingGame() after container is rendered
+                fishPosition = 0; // Will be set to random position
+                playerPosition = 0; // Will be set to middle
                 fishDirection = Math.random() > 0.5 ? 1 : -1;
                 
                 // Show modal
@@ -1262,12 +1305,24 @@
             const maxPosition = containerWidth - fishWidth;
             const maxPlayerPosition = containerWidth - playerWidth;
             
-            // Reset player position
+            // Reset player position to middle
             playerPosition = (containerWidth - playerWidth) / 2;
             const playerBar = document.getElementById('playerBar');
             if (playerBar) {
                 playerBar.style.left = playerPosition + 'px';
             }
+            
+            // Start fish from random position on the slider bar
+            fishPosition = Math.random() * maxPosition;
+            const fishIndicator = document.getElementById('fishIndicator');
+            if (fishIndicator) {
+                fishIndicator.style.left = fishPosition + 'px';
+            }
+            
+            // Fish movement variables for more random behavior
+            let fishSpeedVariation = 0;
+            let directionChangeCounter = 0;
+            const baseFishSpeed = 3 + (currentFish.catchTime / 2); // Faster base speed
             
             fishingGameInterval = setInterval(() => {
                 // Move player bar based on keys
@@ -1279,13 +1334,28 @@
                     playerPosition = Math.min(maxPlayerPosition, playerPosition + playerSpeed);
                 }
                 
-                // Move fish (bounces back and forth)
-                const fishSpeed = 2 + (currentFish.catchTime / 2); // Faster fish move faster
-                fishPosition += fishDirection * fishSpeed;
+                // Move fish with more random, erratic movement
+                // Add speed variation for more unpredictability
+                fishSpeedVariation += (Math.random() - 0.5) * 0.3;
+                fishSpeedVariation = Math.max(-1, Math.min(1, fishSpeedVariation)); // Clamp variation
                 
-                if (fishPosition <= 0 || fishPosition >= maxPosition) {
+                // Calculate current fish speed with variation
+                const currentFishSpeed = baseFishSpeed + fishSpeedVariation;
+                fishPosition += fishDirection * currentFishSpeed;
+                
+                // More frequent direction changes for random back-and-forth movement
+                directionChangeCounter++;
+                const shouldChangeDirection = 
+                    fishPosition <= 0 || 
+                    fishPosition >= maxPosition ||
+                    (directionChangeCounter > 10 && Math.random() < 0.15); // 15% chance to randomly change direction
+                
+                if (shouldChangeDirection) {
                     fishDirection *= -1;
                     fishPosition = Math.max(0, Math.min(maxPosition, fishPosition));
+                    directionChangeCounter = 0;
+                    // Reset speed variation when changing direction
+                    fishSpeedVariation = (Math.random() - 0.5) * 0.5;
                 }
                 
                 // Update positions
