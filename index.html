@@ -3887,9 +3887,8 @@
         }, 30000);
 
         // Leaderboard functions using JSONBin.io
-        // Note: You'll need to create a bin at https://jsonbin.io/ and replace these values
-        const JSONBIN_BIN_ID = 'your-bin-id-here'; // Replace with your JSONBin.io bin ID
-        const JSONBIN_API_KEY = '$2a$10$your-api-key-here'; // Replace with your JSONBin.io API key
+        const JSONBIN_BIN_ID = '691d8fc2ae596e708f6291f1';
+        const JSONBIN_API_KEY = '$2a$10$RupGyIKoStuKBDCn5QPrcOtiBfE.4z7AqAVvTtacUq2aS6wtZaYXi'; // Access key with CRUD permissions
         
         // Leaderboard data structure: { players: [{ name: string, fishCaught: number, lastUpdated: timestamp }] }
         let leaderboardData = { players: [] };
@@ -3916,7 +3915,7 @@
                 // First, fetch current leaderboard
                 const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
                     headers: {
-                        'X-Master-Key': JSONBIN_API_KEY
+                        'X-Access-Key': JSONBIN_API_KEY
                     }
                 });
 
@@ -3924,6 +3923,7 @@
                     const data = await response.json();
                     leaderboardData = data.record || { players: [] };
                 } else {
+                    console.error('Failed to fetch leaderboard:', response.status, response.statusText);
                     // If bin doesn't exist, create new structure
                     leaderboardData = { players: [] };
                 }
@@ -3948,14 +3948,18 @@
                 leaderboardData.players.sort((a, b) => b.fishCaught - a.fishCaught);
 
                 // Update leaderboard on JSONBin.io
-                await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+                const updateResponse = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_API_KEY
+                        'X-Access-Key': JSONBIN_API_KEY
                     },
                     body: JSON.stringify(leaderboardData)
                 });
+
+                if (!updateResponse.ok) {
+                    console.error('Failed to update leaderboard:', updateResponse.status, updateResponse.statusText);
+                }
 
                 lastLeaderboardSubmit = now;
             } catch (error) {
@@ -3986,7 +3990,7 @@
             try {
                 const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
                     headers: {
-                        'X-Master-Key': JSONBIN_API_KEY
+                        'X-Access-Key': JSONBIN_API_KEY
                     }
                 });
 
@@ -3995,7 +3999,9 @@
                     leaderboardData = data.record || { players: [] };
                     displayLeaderboard();
                 } else {
-                    throw new Error('Failed to fetch leaderboard');
+                    const errorText = await response.text();
+                    console.error('Failed to fetch leaderboard:', response.status, response.statusText, errorText);
+                    throw new Error(`Failed to fetch leaderboard: ${response.status} ${response.statusText}`);
                 }
             } catch (error) {
                 console.error('Error fetching leaderboard:', error);
@@ -4003,7 +4009,10 @@
                 if (content) {
                     content.innerHTML = `
                         <div style="text-align: center; color: #ff6b6b; padding: 20px;">
-                            Error loading leaderboard. Please try again later.
+                            Error loading leaderboard (401 Unauthorized).<br>
+                            <small style="color: #999; margin-top: 10px; display: block;">
+                                Please check your API key permissions in JSONBin.io
+                            </small>
                         </div>
                     `;
                 }
