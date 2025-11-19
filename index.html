@@ -1153,6 +1153,67 @@
             border-radius: 5px;
         }
 
+        /* Mobile map controls */
+        .map-mobile-controls {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .map-mobile-controls {
+                display: block;
+            }
+        }
+
+        .map-controls-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            grid-template-rows: repeat(3, 60px);
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .map-control-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 2px solid #fff;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            touch-action: none;
+            transition: all 0.1s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .map-control-btn:active {
+            transform: scale(0.9);
+            background: linear-gradient(135deg, #5568d3 0%, #654892 100%);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .map-control-btn.empty {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            cursor: default;
+        }
+
+        .map-control-btn.empty:active {
+            transform: none;
+        }
+
         .legend-item {
             display: flex;
             align-items: center;
@@ -1550,10 +1611,44 @@
         <div class="modal-content" style="max-width: 900px;">
             <button class="close-btn" onclick="closeModal('mapModal')">✕</button>
             <h2>🗺️ Island Map</h2>
-            <p>Use <strong>W/A/S/D</strong> keys to walk around! Walk to islands to visit them.</p>
+            <p>Use <strong>W/A/S/D</strong> keys (desktop) or the control buttons (mobile) to walk around! Walk to islands to visit them.</p>
             <div class="map-container" id="mapContainer">
                 <div class="map-world" id="mapWorld">
                     <div class="map-player" id="mapPlayer"></div>
+                </div>
+            </div>
+            <!-- Mobile Controls -->
+            <div class="map-mobile-controls" id="mapMobileControls">
+                <div class="map-controls-grid">
+                    <div class="map-control-btn empty"></div>
+                    <div class="map-control-btn" id="mapBtnUp" 
+                         ontouchstart="handleMapTouchStart('w')" 
+                         ontouchend="handleMapTouchEnd('w')"
+                         onmousedown="handleMapTouchStart('w')"
+                         onmouseup="handleMapTouchEnd('w')"
+                         onmouseleave="handleMapTouchEnd('w')">⬆️</div>
+                    <div class="map-control-btn empty"></div>
+                    <div class="map-control-btn" id="mapBtnLeft"
+                         ontouchstart="handleMapTouchStart('a')" 
+                         ontouchend="handleMapTouchEnd('a')"
+                         onmousedown="handleMapTouchStart('a')"
+                         onmouseup="handleMapTouchEnd('a')"
+                         onmouseleave="handleMapTouchEnd('a')">⬅️</div>
+                    <div class="map-control-btn empty"></div>
+                    <div class="map-control-btn" id="mapBtnRight"
+                         ontouchstart="handleMapTouchStart('d')" 
+                         ontouchend="handleMapTouchEnd('d')"
+                         onmousedown="handleMapTouchStart('d')"
+                         onmouseup="handleMapTouchEnd('d')"
+                         onmouseleave="handleMapTouchEnd('d')">➡️</div>
+                    <div class="map-control-btn empty"></div>
+                    <div class="map-control-btn" id="mapBtnDown"
+                         ontouchstart="handleMapTouchStart('s')" 
+                         ontouchend="handleMapTouchEnd('s')"
+                         onmousedown="handleMapTouchStart('s')"
+                         onmouseup="handleMapTouchEnd('s')"
+                         onmouseleave="handleMapTouchEnd('s')">⬇️</div>
+                    <div class="map-control-btn empty"></div>
                 </div>
             </div>
             <div class="map-legend">
@@ -3176,6 +3271,11 @@
             if (modalId === 'rodsModal') renderRods();
             if (modalId === 'mapModal') {
                 setTimeout(() => renderMap(), 100); // Small delay to ensure container is rendered
+                // Show mobile controls when map opens
+                const mobileControls = document.getElementById('mapMobileControls');
+                if (mobileControls) {
+                    mobileControls.style.display = 'block';
+                }
             }
         }
 
@@ -3185,6 +3285,11 @@
                 stopMapMovement();
                 // Reset keys
                 mapKeysPressed = { w: false, a: false, s: false, d: false };
+                // Hide mobile controls when map closes
+                const mobileControls = document.getElementById('mapMobileControls');
+                if (mobileControls) {
+                    mobileControls.style.display = 'none';
+                }
             }
         }
 
@@ -3586,6 +3691,28 @@
             if (mapMovementInterval) {
                 clearInterval(mapMovementInterval);
                 mapMovementInterval = null;
+            }
+            mapKeysPressed = { w: false, a: false, s: false, d: false };
+        }
+
+        // Mobile touch controls for map
+        function handleMapTouchStart(direction) {
+            if (direction === 'w') mapKeysPressed.w = true;
+            if (direction === 'a') mapKeysPressed.a = true;
+            if (direction === 's') mapKeysPressed.s = true;
+            if (direction === 'd') mapKeysPressed.d = true;
+            startMapMovement();
+        }
+
+        function handleMapTouchEnd(direction) {
+            if (direction === 'w') mapKeysPressed.w = false;
+            if (direction === 'a') mapKeysPressed.a = false;
+            if (direction === 's') mapKeysPressed.s = false;
+            if (direction === 'd') mapKeysPressed.d = false;
+            
+            // Stop movement if no keys are pressed
+            if (!mapKeysPressed.w && !mapKeysPressed.a && !mapKeysPressed.s && !mapKeysPressed.d) {
+                stopMapMovement();
             }
         }
 
