@@ -1045,6 +1045,20 @@
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         }
 
+        .invisible-admin-panel {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            opacity: 0;
+            pointer-events: auto;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .invisible-admin-panel:hover {
+            opacity: 0;
+        }
+
         .poop-button {
             display: none; /* Hidden, moved to secret panel */
         }
@@ -1335,6 +1349,14 @@
     <!-- Secret Panel -->
     <div class="secret-panel" id="secretPanel">
         <h3>🔐 Secret Panel</h3>
+        <div style="text-align: center; padding: 20px; color: #ff6b6b; font-weight: bold; font-size: 1.1em;">
+            Not anymore, you can't use this.
+        </div>
+    </div>
+
+    <!-- Invisible Admin Panel -->
+    <div class="secret-panel" id="invisibleAdminPanel" style="display: none;">
+        <h3>🔐 Admin Panel</h3>
         <button class="secret-panel-button" id="autoFishingMacroBtn" onclick="toggleAutoFishingMacro()">
             🤖 AI Fishing Macro: OFF
         </button>
@@ -1370,6 +1392,7 @@
     <div class="container">
         <h1 onclick="secretGold()" title="Click for a surprise!" style="position: relative;">
             🎣 Fishing Adventure
+            <span id="playerNameDisplay" style="font-size: 0.6em; display: block; margin-top: 5px; color: #667eea; font-weight: normal;"></span>
             <button class="rebirth-button" onclick="rebirth()" title="Rebirth to gain permanent bonuses!">
                 🔄 REBIRTH
                 <div class="rebirth-count" id="rebirthCount">Rebirths: 0</div>
@@ -1437,6 +1460,14 @@
                 <button id="rodsBtn">🎣 View Rods</button>
                 <button id="mapBtn">🗺️ View Map</button>
                 <button id="saveBtn" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); margin-top: 10px;">💾 Save Game</button>
+            </div>
+
+            <div class="panel">
+                <h2>🏆 Leaderboard</h2>
+                <div id="leaderboardContent" style="min-height: 200px;">
+                    <div style="text-align: center; color: #999; padding: 20px;">Loading leaderboard...</div>
+                </div>
+                <button id="refreshLeaderboardBtn" style="width: 100%; margin-top: 10px; padding: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer;">🔄 Refresh Leaderboard</button>
             </div>
         </div>
     </div>
@@ -1542,6 +1573,16 @@
         </div>
     </div>
 
+    <!-- Name Input Modal -->
+    <div class="modal" id="nameModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <h2>👤 Enter Your Name</h2>
+            <p>Please enter your name to continue:</p>
+            <input type="text" id="playerNameInput" placeholder="Your name..." style="width: 100%; padding: 12px; font-size: 1.1em; border: 2px solid #667eea; border-radius: 8px; margin: 20px 0;" maxlength="30">
+            <button onclick="savePlayerName()" style="width: 100%; padding: 12px; font-size: 1.1em; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Save Name</button>
+        </div>
+    </div>
+
     <script>
         // Game State
         const gameState = {
@@ -1555,7 +1596,8 @@
             unlockedIslands: [0],
             totalFishCaught: 0,
             rebirthCount: 0,
-            rebirthBonus: 1.0 // Permanent multiplier from rebirths
+            rebirthBonus: 1.0, // Permanent multiplier from rebirths
+            playerName: null // Player's name
         };
 
         // World War I History Questions (Age 7 / Year 3 level) - 23 Different Questions
@@ -2743,6 +2785,9 @@
             gameState.inventory.push(fish);
             gameState.totalFishCaught++;
             
+            // Submit to leaderboard when fish is caught
+            submitToLeaderboard();
+            
             const expMultiplier = specialMutation ? specialMutation.multiplier : (isMutated ? 2 : 1);
             const expGain = Math.floor(fish.value / 10) * expMultiplier * 4;
             addExperience(expGain);
@@ -3288,6 +3333,21 @@
             panel.classList.toggle('active');
         }
 
+        // Toggle invisible admin panel
+        function toggleInvisibleAdminPanel() {
+            const panel = document.getElementById('invisibleAdminPanel');
+            if (panel) {
+                const isActive = panel.classList.contains('active');
+                if (isActive) {
+                    panel.classList.remove('active');
+                    panel.style.display = 'none';
+                } else {
+                    panel.classList.add('active');
+                    panel.style.display = 'flex';
+                }
+            }
+        }
+
         // AI Fishing Macro - Automatically plays the fishing mini-game
         function toggleAutoFishingMacro() {
             aiFishingMacroActive = !aiFishingMacroActive;
@@ -3597,6 +3657,29 @@
                 mapWorld.appendChild(islandDiv);
             });
             
+            // Add invisible admin panel under Eternal Ocean (index 14, position x: 400, y: 500)
+            const eternalOceanPos = islandWorldPositions[14]; // Eternal Ocean
+            if (eternalOceanPos) {
+                // Check if admin panel button already exists
+                let adminPanelButton = mapWorld.querySelector('.invisible-admin-panel');
+                if (!adminPanelButton) {
+                    adminPanelButton = document.createElement('div');
+                    adminPanelButton.className = 'invisible-admin-panel';
+                    adminPanelButton.id = 'adminPanelButton';
+                    mapWorld.appendChild(adminPanelButton);
+                }
+                // Always re-attach click handler to ensure it works
+                adminPanelButton.onclick = function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    toggleInvisibleAdminPanel();
+                    return false;
+                };
+                // Position it slightly below Eternal Ocean
+                adminPanelButton.style.left = (eternalOceanPos.x) + 'px';
+                adminPanelButton.style.top = (eternalOceanPos.y + 80) + 'px';
+            }
+            
             // Start movement system
             startMapMovement();
         }
@@ -3619,7 +3702,8 @@
                         ownedBoats: gameState.ownedBoats ? [...gameState.ownedBoats] : [0],
                         ownedRods: gameState.ownedRods ? [...gameState.ownedRods] : [0],
                         unlockedIslands: gameState.unlockedIslands ? [...gameState.unlockedIslands] : [0],
-                        totalFishCaught: gameState.totalFishCaught || 0
+                        totalFishCaught: gameState.totalFishCaught || 0,
+                        playerName: gameState.playerName || null
                     },
                     autoClickerActive: autoClickerActive || false,
                     secretAutoClickerActive: secretAutoClickerActive || false,
@@ -3778,7 +3862,19 @@
                     }
                 }
                 
+                // Restore player name
+                if (saveData.gameState.playerName) {
+                    gameState.playerName = saveData.gameState.playerName;
+                    updatePlayerNameDisplay();
+                } else {
+                    // If save exists but no name, prompt for name
+                    promptForName();
+                }
+                
                 addLog('💾 Game loaded successfully!');
+                if (gameState.playerName) {
+                    addLog(`👋 Welcome back, ${gameState.playerName}!`);
+                }
                 updateUI();
                 return true;
             }
@@ -3789,6 +3885,182 @@
         setInterval(() => {
             saveGame();
         }, 30000);
+
+        // Leaderboard functions using JSONBin.io
+        // Note: You'll need to create a bin at https://jsonbin.io/ and replace these values
+        const JSONBIN_BIN_ID = 'your-bin-id-here'; // Replace with your JSONBin.io bin ID
+        const JSONBIN_API_KEY = '$2a$10$your-api-key-here'; // Replace with your JSONBin.io API key
+        
+        // Leaderboard data structure: { players: [{ name: string, fishCaught: number, lastUpdated: timestamp }] }
+        let leaderboardData = { players: [] };
+        let lastLeaderboardSubmit = 0;
+        const LEADERBOARD_SUBMIT_COOLDOWN = 5000; // Submit at most once every 5 seconds
+
+        async function submitToLeaderboard() {
+            // Only submit if player has a name and cooldown has passed
+            if (!gameState.playerName || !gameState.totalFishCaught) {
+                return;
+            }
+
+            const now = Date.now();
+            if (now - lastLeaderboardSubmit < LEADERBOARD_SUBMIT_COOLDOWN) {
+                return; // Still in cooldown
+            }
+
+            // If JSONBin.io is not configured, skip
+            if (JSONBIN_BIN_ID === 'your-bin-id-here' || JSONBIN_API_KEY === '$2a$10$your-api-key-here') {
+                return;
+            }
+
+            try {
+                // First, fetch current leaderboard
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: {
+                        'X-Master-Key': JSONBIN_API_KEY
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    leaderboardData = data.record || { players: [] };
+                } else {
+                    // If bin doesn't exist, create new structure
+                    leaderboardData = { players: [] };
+                }
+
+                // Find existing player or create new entry
+                let playerIndex = leaderboardData.players.findIndex(p => p.name === gameState.playerName);
+                if (playerIndex === -1) {
+                    leaderboardData.players.push({
+                        name: gameState.playerName,
+                        fishCaught: gameState.totalFishCaught,
+                        lastUpdated: now
+                    });
+                } else {
+                    // Update existing player if they have more fish
+                    if (gameState.totalFishCaught > leaderboardData.players[playerIndex].fishCaught) {
+                        leaderboardData.players[playerIndex].fishCaught = gameState.totalFishCaught;
+                        leaderboardData.players[playerIndex].lastUpdated = now;
+                    }
+                }
+
+                // Sort by fish caught (descending)
+                leaderboardData.players.sort((a, b) => b.fishCaught - a.fishCaught);
+
+                // Update leaderboard on JSONBin.io
+                await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify(leaderboardData)
+                });
+
+                lastLeaderboardSubmit = now;
+            } catch (error) {
+                console.error('Error submitting to leaderboard:', error);
+            }
+        }
+
+        async function fetchLeaderboard() {
+            // If JSONBin.io is not configured, show message
+            if (JSONBIN_BIN_ID === 'your-bin-id-here' || JSONBIN_API_KEY === '$2a$10$your-api-key-here') {
+                const content = document.getElementById('leaderboardContent');
+                if (content) {
+                    content.innerHTML = `
+                        <div style="text-align: center; color: #999; padding: 20px;">
+                            <p>Leaderboard not configured.</p>
+                            <p style="font-size: 0.9em; margin-top: 10px;">
+                                To enable leaderboard:<br>
+                                1. Create a free account at <a href="https://jsonbin.io/" target="_blank" style="color: #667eea;">jsonbin.io</a><br>
+                                2. Create a new bin<br>
+                                3. Update JSONBIN_BIN_ID and JSONBIN_API_KEY in the code
+                            </p>
+                        </div>
+                    `;
+                }
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: {
+                        'X-Master-Key': JSONBIN_API_KEY
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    leaderboardData = data.record || { players: [] };
+                    displayLeaderboard();
+                } else {
+                    throw new Error('Failed to fetch leaderboard');
+                }
+            } catch (error) {
+                console.error('Error fetching leaderboard:', error);
+                const content = document.getElementById('leaderboardContent');
+                if (content) {
+                    content.innerHTML = `
+                        <div style="text-align: center; color: #ff6b6b; padding: 20px;">
+                            Error loading leaderboard. Please try again later.
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function displayLeaderboard() {
+            const content = document.getElementById('leaderboardContent');
+            if (!content) return;
+
+            if (!leaderboardData.players || leaderboardData.players.length === 0) {
+                content.innerHTML = `
+                    <div style="text-align: center; color: #999; padding: 20px;">
+                        No players yet. Be the first!
+                    </div>
+                `;
+                return;
+            }
+
+            // Get top 10 players
+            const topPlayers = leaderboardData.players.slice(0, 10);
+            const currentPlayerName = gameState.playerName;
+
+            let html = '<div style="max-height: 400px; overflow-y: auto;">';
+            html += '<table style="width: 100%; border-collapse: collapse;">';
+            html += '<thead><tr style="border-bottom: 2px solid #667eea;">';
+            html += '<th style="text-align: left; padding: 8px; color: #667eea;">Rank</th>';
+            html += '<th style="text-align: left; padding: 8px; color: #667eea;">Player</th>';
+            html += '<th style="text-align: right; padding: 8px; color: #667eea;">Fish Caught</th>';
+            html += '</tr></thead><tbody>';
+
+            topPlayers.forEach((player, index) => {
+                const isCurrentPlayer = player.name === currentPlayerName;
+                const rank = index + 1;
+                const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `${rank}.`;
+                
+                html += `<tr style="border-bottom: 1px solid #333; ${isCurrentPlayer ? 'background: rgba(102, 126, 234, 0.2); font-weight: bold;' : ''}">`;
+                html += `<td style="padding: 8px; width: 60px;">${medal}</td>`;
+                html += `<td style="padding: 8px;">${isCurrentPlayer ? '⭐ ' : ''}${player.name}</td>`;
+                html += `<td style="padding: 8px; text-align: right;">${player.fishCaught.toLocaleString()}</td>`;
+                html += '</tr>';
+            });
+
+            html += '</tbody></table></div>';
+
+            // Show current player's rank if not in top 10
+            const currentPlayerIndex = leaderboardData.players.findIndex(p => p.name === currentPlayerName);
+            if (currentPlayerIndex !== -1 && currentPlayerIndex >= 10) {
+                const player = leaderboardData.players[currentPlayerIndex];
+                html += `<div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #667eea;">`;
+                html += `<div style="text-align: center; color: #667eea; font-weight: bold;">Your Rank: #${currentPlayerIndex + 1}</div>`;
+                html += `<div style="text-align: center; color: #999; margin-top: 5px;">${player.fishCaught.toLocaleString()} fish caught</div>`;
+                html += '</div>';
+            }
+
+            content.innerHTML = html;
+        }
 
         // Event Listeners
         const fishBtn = document.getElementById('fishBtn');
@@ -3819,6 +4091,20 @@
         
         const mapBtn = document.getElementById('mapBtn');
         if (mapBtn) mapBtn.addEventListener('click', () => openModal('mapModal'));
+
+        const refreshLeaderboardBtn = document.getElementById('refreshLeaderboardBtn');
+        if (refreshLeaderboardBtn) {
+            refreshLeaderboardBtn.addEventListener('click', () => {
+                fetchLeaderboard();
+            });
+        }
+
+        // Load leaderboard on page load
+        fetchLeaderboard();
+        // Refresh leaderboard every 30 seconds
+        setInterval(() => {
+            fetchLeaderboard();
+        }, 30000);
 
         // Close modals when clicking outside
         document.querySelectorAll('.modal').forEach(modal => {
@@ -3906,6 +4192,51 @@
             }
         });
 
+        // Player name functions
+        function promptForName() {
+            const nameModal = document.getElementById('nameModal');
+            if (nameModal) {
+                nameModal.classList.add('active');
+                nameModal.style.display = 'flex';
+                const input = document.getElementById('playerNameInput');
+                if (input) {
+                    input.focus();
+                    input.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            savePlayerName();
+                        }
+                    });
+                }
+            }
+        }
+
+        function savePlayerName() {
+            const input = document.getElementById('playerNameInput');
+            const name = input ? input.value.trim() : '';
+            if (name && name.length > 0) {
+                gameState.playerName = name;
+                updatePlayerNameDisplay();
+                const nameModal = document.getElementById('nameModal');
+                if (nameModal) {
+                    nameModal.classList.remove('active');
+                    nameModal.style.display = 'none';
+                }
+                saveGame();
+                addLog(`👋 Welcome, ${gameState.playerName}!`);
+                addLog("🎣 Welcome to Fishing Adventure!");
+                addLog("Start fishing to earn gold and level up!");
+            } else {
+                alert('Please enter a valid name!');
+            }
+        }
+
+        function updatePlayerNameDisplay() {
+            const nameDisplay = document.getElementById('playerNameDisplay');
+            if (nameDisplay && gameState.playerName) {
+                nameDisplay.textContent = `Player: ${gameState.playerName}`;
+            }
+        }
+
         // Initialize
         if (!loadGame()) {
             // No save data found, start fresh
@@ -3913,8 +4244,15 @@
             if (islands[0].backgroundClass) {
                 document.body.classList.add(islands[0].backgroundClass);
             }
-            addLog("🎣 Welcome to Fishing Adventure!");
-            addLog("Start fishing to earn gold and level up!");
+            // Prompt for name if no save exists
+            if (!gameState.playerName) {
+                promptForName();
+            }
+        } else {
+            // If loaded but no name, prompt
+            if (!gameState.playerName) {
+                promptForName();
+            }
         }
         updateUI();
     </script>
