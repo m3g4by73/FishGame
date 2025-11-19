@@ -1214,6 +1214,42 @@
             transform: none;
         }
 
+        /* Visit Counter */
+        .visit-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .visit-counter-icon {
+            font-size: 1.2em;
+        }
+
+        .visit-counter-number {
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .visit-counter {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px 15px;
+                font-size: 0.8em;
+            }
+        }
+
         .legend-item {
             display: flex;
             align-items: center;
@@ -1531,6 +1567,12 @@
                 <button id="refreshLeaderboardBtn" style="width: 100%; margin-top: 10px; padding: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer;">🔄 Refresh Leaderboard</button>
             </div>
         </div>
+    </div>
+
+    <!-- Visit Counter -->
+    <div class="visit-counter" id="visitCounter">
+        <span class="visit-counter-icon">👁️</span>
+        <span>Visits: <span class="visit-counter-number" id="visitCount">-</span></span>
     </div>
 
     <!-- Shipwright Modal -->
@@ -4017,8 +4059,8 @@
         const JSONBIN_BIN_ID = '691d8fc2ae596e708f6291f1';
         const JSONBIN_API_KEY = '$2a$10$RupGyIKoStuKBDCn5QPrcOtiBfE.4z7AqAVvTtacUq2aS6wtZaYXi'; // Access key with CRUD permissions
         
-        // Leaderboard data structure: { players: [{ name: string, fishCaught: number, lastUpdated: timestamp }] }
-        let leaderboardData = { players: [] };
+        // Leaderboard data structure: { players: [{ name: string, fishCaught: number, lastUpdated: timestamp }], visits: number }
+        let leaderboardData = { players: [], visits: 0 };
         let lastLeaderboardSubmit = 0;
         const LEADERBOARD_SUBMIT_COOLDOWN = 5000; // Submit at most once every 5 seconds
 
@@ -4073,6 +4115,11 @@
 
                 // Sort by fish caught (descending)
                 leaderboardData.players.sort((a, b) => b.fishCaught - a.fishCaught);
+
+                // Preserve visit count when updating leaderboard
+                if (leaderboardData.visits === undefined) {
+                    leaderboardData.visits = 0;
+                }
 
                 // Update leaderboard on JSONBin.io
                 const updateResponse = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
@@ -4198,6 +4245,98 @@
             content.innerHTML = html;
         }
 
+        // Visit counter functions
+        async function incrementVisitCounter() {
+            // If JSONBin.io is not configured, skip
+            if (JSONBIN_BIN_ID === 'your-bin-id-here' || JSONBIN_API_KEY === '$2a$10$your-api-key-here') {
+                return;
+            }
+
+            try {
+                // Check if we've already counted this visit today (using localStorage)
+                const lastVisitDate = localStorage.getItem('lastVisitDate');
+                const today = new Date().toDateString();
+                
+                // Only count once per day per user
+                if (lastVisitDate === today) {
+                    // Still fetch and display the current count
+                    fetchVisitCounter();
+                    return;
+                }
+
+                // Fetch current visit count (need to get the full record to preserve leaderboard data)
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: {
+                        'X-Access-Key': JSONBIN_API_KEY
+                    }
+                });
+
+                let currentData = { players: [], visits: 0 };
+                if (response.ok) {
+                    const data = await response.json();
+                    currentData = data.record || { players: [], visits: 0 };
+                }
+
+                // Increment visit count
+                currentData.visits = (currentData.visits || 0) + 1;
+
+                // Update visit count on JSONBin.io (preserve leaderboard data)
+                const updateResponse = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Access-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify(currentData)
+                });
+
+                if (updateResponse.ok) {
+                    // Mark this visit as counted for today
+                    localStorage.setItem('lastVisitDate', today);
+                    // Update display
+                    updateVisitCounterDisplay(currentData.visits);
+                }
+            } catch (error) {
+                console.error('Error updating visit counter:', error);
+                // Still try to fetch the current count
+                fetchVisitCounter();
+            }
+        }
+
+        async function fetchVisitCounter() {
+            // If JSONBin.io is not configured, skip
+            if (JSONBIN_BIN_ID === 'your-bin-id-here' || JSONBIN_API_KEY === '$2a$10$your-api-key-here') {
+                updateVisitCounterDisplay('?');
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: {
+                        'X-Access-Key': JSONBIN_API_KEY
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const visits = data.record?.visits || 0;
+                    updateVisitCounterDisplay(visits);
+                } else {
+                    updateVisitCounterDisplay('?');
+                }
+            } catch (error) {
+                console.error('Error fetching visit counter:', error);
+                updateVisitCounterDisplay('?');
+            }
+        }
+
+        function updateVisitCounterDisplay(count) {
+            const visitCountElement = document.getElementById('visitCount');
+            if (visitCountElement) {
+                visitCountElement.textContent = typeof count === 'number' ? count.toLocaleString() : count;
+            }
+        }
+
         // Event Listeners
         const fishBtn = document.getElementById('fishBtn');
         if (fishBtn) {
@@ -4241,6 +4380,13 @@
         setInterval(() => {
             fetchLeaderboard();
         }, 30000);
+
+        // Initialize visit counter
+        incrementVisitCounter();
+        // Refresh visit counter every 60 seconds
+        setInterval(() => {
+            fetchVisitCounter();
+        }, 60000);
 
         // Close modals when clicking outside
         document.querySelectorAll('.modal').forEach(modal => {
