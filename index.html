@@ -1250,6 +1250,36 @@
             }
         }
 
+        /* Admin Panel Access Tick */
+        .admin-tick-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            transition: all 0.3s;
+        }
+
+        .admin-tick-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+        }
+
+        .admin-tick-button.active {
+            display: flex;
+        }
+
         .legend-item {
             display: flex;
             align-items: center;
@@ -1484,6 +1514,9 @@
         <button class="secret-panel-button" id="toggleQuestionsBtn" onclick="toggleHistoryQuestions()">
             📚 History Questions: ON
         </button>
+        <button class="secret-panel-button" onclick="closeAdminPanel()" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); margin-top: 10px;">
+            ✕ Close Admin Panel
+        </button>
     </div>
     
     <div class="container">
@@ -1557,6 +1590,7 @@
                 <button id="rodsBtn">🎣 View Rods</button>
                 <button id="mapBtn">🗺️ View Map</button>
                 <button id="saveBtn" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); margin-top: 10px;">💾 Save Game</button>
+                <button id="secretRecycleBtn" onclick="openSecretCodeModal()" style="background: transparent; border: none; margin-top: 10px; padding: 10px; width: 100%; opacity: 0; cursor: pointer; height: 40px; display: none; pointer-events: auto;"></button>
             </div>
 
             <div class="panel">
@@ -1573,6 +1607,23 @@
     <div class="visit-counter" id="visitCounter">
         <span class="visit-counter-icon">👁️</span>
         <span>Visits: <span class="visit-counter-number" id="visitCount">-</span></span>
+    </div>
+
+    <!-- Admin Panel Access Tick -->
+    <div class="admin-tick-button" id="adminTickButton" onclick="openAdminPanel()" title="Open Admin Panel">
+        ✓
+    </div>
+
+    <!-- Secret Code Modal -->
+    <div class="modal" id="secretCodeModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <button class="close-btn" onclick="closeModal('secretCodeModal')">✕</button>
+            <h2>🔐 Enter Secret Code</h2>
+            <p>Enter the sacred code to access hidden features:</p>
+            <input type="text" id="secretCodeInput" placeholder="Enter code..." style="width: 100%; padding: 12px; font-size: 1.1em; border: 2px solid #667eea; border-radius: 8px; margin: 20px 0;" maxlength="50">
+            <button onclick="checkSecretCode()" style="width: 100%; padding: 12px; font-size: 1.1em; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Submit</button>
+            <div id="secretCodeMessage" style="margin-top: 15px; text-align: center; color: #ff6b6b; font-weight: bold;"></div>
+        </div>
     </div>
 
     <!-- Shipwright Modal -->
@@ -3480,18 +3531,80 @@
             panel.classList.toggle('active');
         }
 
-        // Toggle invisible admin panel
-        function toggleInvisibleAdminPanel() {
-            const panel = document.getElementById('invisibleAdminPanel');
-            if (panel) {
-                const isActive = panel.classList.contains('active');
-                if (isActive) {
-                    panel.classList.remove('active');
-                    panel.style.display = 'none';
-                } else {
-                    panel.classList.add('active');
-                    panel.style.display = 'flex';
+        // Secret code functions
+        function openSecretCodeModal() {
+            const modal = document.getElementById('secretCodeModal');
+            if (modal) {
+                modal.classList.add('active');
+                const input = document.getElementById('secretCodeInput');
+                if (input) {
+                    input.value = '';
+                    input.focus();
+                    // Allow Enter key to submit
+                    input.onkeypress = function(e) {
+                        if (e.key === 'Enter') {
+                            checkSecretCode();
+                        }
+                    };
                 }
+                const message = document.getElementById('secretCodeMessage');
+                if (message) {
+                    message.textContent = '';
+                }
+            }
+        }
+
+        function checkSecretCode() {
+            const input = document.getElementById('secretCodeInput');
+            const message = document.getElementById('secretCodeMessage');
+            const code = input ? input.value.trim() : '';
+            
+            if (code === 'Index Old') {
+                // Correct code - show tick button in top right and recycle button
+                const tickButton = document.getElementById('adminTickButton');
+                if (tickButton) {
+                    tickButton.classList.add('active');
+                }
+                const recycleButton = document.getElementById('secretRecycleBtn');
+                if (recycleButton) {
+                    recycleButton.style.display = 'block';
+                }
+                // Save to localStorage so it persists
+                localStorage.setItem('adminCodeUnlocked', 'true');
+                closeModal('secretCodeModal');
+                if (message) {
+                    message.textContent = '✓ Code accepted!';
+                    message.style.color = '#28a745';
+                }
+                if (input) {
+                    input.value = '';
+                }
+            } else {
+                // Wrong code
+                if (message) {
+                    message.textContent = '❌ Incorrect code!';
+                    message.style.color = '#ff6b6b';
+                }
+                if (input) {
+                    input.value = '';
+                    input.focus();
+                }
+            }
+        }
+
+        function openAdminPanel() {
+            const adminPanel = document.getElementById('invisibleAdminPanel');
+            if (adminPanel) {
+                adminPanel.classList.add('active');
+                adminPanel.style.display = 'flex';
+            }
+        }
+
+        function closeAdminPanel() {
+            const adminPanel = document.getElementById('invisibleAdminPanel');
+            if (adminPanel) {
+                adminPanel.classList.remove('active');
+                adminPanel.style.display = 'none';
             }
         }
 
@@ -3826,28 +3939,7 @@
                 mapWorld.appendChild(islandDiv);
             });
             
-            // Add invisible admin panel under Eternal Ocean (index 14, position x: 400, y: 500)
-            const eternalOceanPos = islandWorldPositions[14]; // Eternal Ocean
-            if (eternalOceanPos) {
-                // Check if admin panel button already exists
-                let adminPanelButton = mapWorld.querySelector('.invisible-admin-panel');
-                if (!adminPanelButton) {
-                    adminPanelButton = document.createElement('div');
-                    adminPanelButton.className = 'invisible-admin-panel';
-                    adminPanelButton.id = 'adminPanelButton';
-                    mapWorld.appendChild(adminPanelButton);
-                }
-                // Always re-attach click handler to ensure it works
-                adminPanelButton.onclick = function(e) {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    toggleInvisibleAdminPanel();
-                    return false;
-                };
-                // Position it slightly below Eternal Ocean
-                adminPanelButton.style.left = (eternalOceanPos.x) + 'px';
-                adminPanelButton.style.top = (eternalOceanPos.y + 80) + 'px';
-            }
+            // Admin panel button removed - now accessed via secret code (recycle button)
             
             // Start movement system
             startMapMovement();
@@ -4516,6 +4608,18 @@
             const nameDisplay = document.getElementById('playerNameDisplay');
             if (nameDisplay && gameState.playerName) {
                 nameDisplay.textContent = `Player: ${gameState.playerName}`;
+            }
+        }
+
+        // Check if admin code was already unlocked
+        if (localStorage.getItem('adminCodeUnlocked') === 'true') {
+            const tickButton = document.getElementById('adminTickButton');
+            if (tickButton) {
+                tickButton.classList.add('active');
+            }
+            const recycleButton = document.getElementById('secretRecycleBtn');
+            if (recycleButton) {
+                recycleButton.style.display = 'block';
             }
         }
 
