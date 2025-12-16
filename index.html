@@ -1257,7 +1257,7 @@
             right: 20px;
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            background: linear-gradient(135deg, #6f42c1 0%, #9333ea 100%);
             color: white;
             border: 3px solid #fff;
             border-radius: 50%;
@@ -1273,7 +1273,7 @@
 
         .admin-tick-button:hover {
             transform: scale(1.1);
-            box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+            box-shadow: 0 6px 16px rgba(111, 66, 193, 0.4);
         }
 
         .admin-tick-button.active {
@@ -1590,7 +1590,13 @@
                 <button id="rodsBtn">🎣 View Rods</button>
                 <button id="mapBtn">🗺️ View Map</button>
                 <button id="saveBtn" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); margin-top: 10px;">💾 Save Game</button>
-                <button id="secretRecycleBtn" onclick="openSecretCodeModal()" style="background: transparent; border: none; margin-top: 10px; padding: 10px; width: 100%; opacity: 0; cursor: pointer; height: 40px; display: none; pointer-events: auto;"></button>
+                <button
+                    id="secretRecycleBtn"
+                    onclick="openSecretCodeModal()"
+                    style="background: linear-gradient(135deg, #6f42c1 0%, #9333ea 100%); color: #ffffff; border: none; margin-top: 10px; padding: 10px; width: 100%; cursor: pointer; height: 40px; pointer-events: auto; border-radius: 5px; font-weight: bold;"
+                >
+                    🔐 Admin Panel
+                </button>
             </div>
 
             <div class="panel">
@@ -1609,7 +1615,7 @@
         <span>Visits: <span class="visit-counter-number" id="visitCount">-</span></span>
     </div>
 
-    <!-- Admin Panel Access Tick -->
+    <!-- Admin Panel Access Tick (hidden by default until admin code entered) -->
     <div class="admin-tick-button" id="adminTickButton" onclick="openAdminPanel()" title="Open Admin Panel">
         ✓
     </div>
@@ -3569,8 +3575,6 @@
                 if (recycleButton) {
                     recycleButton.style.display = 'block';
                 }
-                // Save to localStorage so it persists
-                localStorage.setItem('adminCodeUnlocked', 'true');
                 closeModal('secretCodeModal');
                 if (message) {
                     message.textContent = '✓ Code accepted!';
@@ -4608,18 +4612,6 @@
             const nameDisplay = document.getElementById('playerNameDisplay');
             if (nameDisplay && gameState.playerName) {
                 nameDisplay.textContent = `Player: ${gameState.playerName}`;
-            }
-        }
-
-        // Check if admin code was already unlocked
-        if (localStorage.getItem('adminCodeUnlocked') === 'true') {
-            const tickButton = document.getElementById('adminTickButton');
-            if (tickButton) {
-                tickButton.classList.add('active');
-            }
-            const recycleButton = document.getElementById('secretRecycleBtn');
-            if (recycleButton) {
-                recycleButton.style.display = 'block';
             }
         }
 
